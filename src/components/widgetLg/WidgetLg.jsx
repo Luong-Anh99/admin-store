@@ -22,7 +22,7 @@ export default function WidgetLg() {
               alt=""
               className="widgetLgImg"
             />
-            <span className="widgetLgName">Ricardo</span>
+            <span className="widgetLgName">Ricardo Montolivo</span>
           </td>
           <td className="widgetLgDate">2 Jun 2021</td>
           <td className="widgetLgAmount">$1000.00</td>
