@@ -1,6 +1,21 @@
 import React from "react";
 import "./sidebar.css";
-import { LineStyle, Timeline, TrendingUp, PersonOutline,AttachMoney,BarChart,SportsEsports, Mail, DynamicFeed, Message, LocalMall, BusinessCenter, Report } from "@material-ui/icons";
+import {
+  LineStyle,
+  Timeline,
+  TrendingUp,
+  PersonOutline,
+  AttachMoney,
+  BarChart,
+  SportsEsports,
+  Mail,
+  DynamicFeed,
+  Message,
+  LocalMall,
+  BusinessCenter,
+  Report,
+} from "@material-ui/icons";
+import { Link } from "react-router-dom";
 
 export default function Sidebar() {
   return (
@@ -10,15 +25,15 @@ export default function Sidebar() {
           <h3 className="sidebarTitle">Dashboard</h3>
           <ul className="sidebarList">
             <li className="sidebarListItem active">
-              <LineStyle className='sidebarIcon' />
+              <LineStyle className="sidebarIcon" />
               Home
             </li>
             <li className="sidebarListItem">
-              <Timeline className='sidebarIcon'/>
+              <Timeline className="sidebarIcon" />
               Analytics
             </li>
             <li className="sidebarListItem">
-              <TrendingUp className='sidebarIcon'/>
+              <TrendingUp className="sidebarIcon" />
               Sales
             </li>
           </ul>
@@ -26,20 +41,24 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Quick Menu</h3>
           <ul className="sidebarList">
-            <li className="sidebarListItem ">
-              <PersonOutline className='sidebarIcon' />
+            <Link to="/users" className="link">
+              <li className="sidebarListItem ">
+                <PersonOutline className="sidebarIcon" />
                 Users
-            </li>
+              </li>
+            </Link>
+            <Link to="/products" className="link">
+              <li className="sidebarListItem">
+                <SportsEsports className="sidebarIcon" />
+                Product
+              </li>
+            </Link>
             <li className="sidebarListItem">
-              <SportsEsports className='sidebarIcon'/>
-              Product
-            </li>
-            <li className="sidebarListItem">
-              <AttachMoney className='sidebarIcon'/>
+              <AttachMoney className="sidebarIcon" />
               Transactions
             </li>
             <li className="sidebarListItem">
-              <BarChart className='sidebarIcon'/>
+              <BarChart className="sidebarIcon" />
               Reports
             </li>
           </ul>
@@ -48,15 +67,15 @@ export default function Sidebar() {
           <h3 className="sidebarTitle">Notifications</h3>
           <ul className="sidebarList">
             <li className="sidebarListItem ">
-              <Mail className='sidebarIcon' />
+              <Mail className="sidebarIcon" />
               Mail
             </li>
             <li className="sidebarListItem">
-              <DynamicFeed className='sidebarIcon'/>
+              <DynamicFeed className="sidebarIcon" />
               Feedback
             </li>
             <li className="sidebarListItem">
-              <Message className='sidebarIcon'/>
+              <Message className="sidebarIcon" />
               Message
             </li>
           </ul>
@@ -65,15 +84,15 @@ export default function Sidebar() {
           <h3 className="sidebarTitle">Staff</h3>
           <ul className="sidebarList">
             <li className="sidebarListItem ">
-              <BusinessCenter className='sidebarIcon' />
+              <BusinessCenter className="sidebarIcon" />
               Manage
             </li>
             <li className="sidebarListItem">
-              <Timeline className='sidebarIcon'/>
+              <Timeline className="sidebarIcon" />
               Analytics
             </li>
             <li className="sidebarListItem">
-              <Report className='sidebarIcon'/>
+              <Report className="sidebarIcon" />
               Report
             </li>
           </ul>
