@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+
+import { useSelector } from "react-redux";
+
+import { useLocation, useParams } from "react-router-dom";
 
 import { Link } from "react-router-dom";
+import axios from "axios";
+
+import todoApi from "../../api/todoApi";
 
 import "./user.css";
 import {
@@ -13,24 +20,72 @@ import {
 } from "@material-ui/icons";
 
 export default function User() {
+  const [username, setUsername] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [gender, setGender] = useState("");
+  const [active, setActive] = useState("yes");
+
+  const [user, setUser] = useState("");
+
+  const location = useLocation();
+
+  const id = useParams();
+
+  const idUser = id.userId;
+
+  useEffect(() => {
+    const fetchUserList = async () => {
+      try {
+        const response = await todoApi.get(idUser);
+        if (response) setUser(response);
+      } catch (error) {
+        console.log("error:", error);
+      }
+    };
+
+    fetchUserList();
+  }, []);
+
+  const updateUser = async (e) => {
+    e.preventDefault();
+    const userApi = user;
+    const newUser = {
+      username: (username.length===0)? userApi.username : username,
+      fullname: (fullname.length===0)? userApi.fullname : fullname ,
+      email: (email.length===0)? userApi.email : email,
+      phone: (phone.length===0)? userApi.phone : phone,
+      address: (address.length===0)? userApi.address : address,
+    };
+    setUser(newUser)
+    try {
+      await todoApi.update(idUser, newUser);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  console.log("user nef", user);
+
+
   return (
     <div className="user">
       <div className="userTitleContainer">
         <h1 className="userTitle">Edit User</h1>
-        <Link to="/newUser">
-          <button className="userAddButton">Create</button>
-        </Link>
       </div>
       <div className="userContainer">
         <div className="userShow">
           <div className="userShowTop">
             <img
-              src="https://kenh14cdn.com/203336854389633024/2021/5/3/photo-1-16200171229011709666303.jpg"
+              src="https://vcdn1-giaitri.vnecdn.net/2020/11/03/lisa-3-1604394414.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=Uzqm3erCQJd3bC_65SfkrQ"
               alt=""
               className="userShowImg"
             />
             <div className="userShowTopTitle">
-              <span className="userShowUserName">Manoban Lalisa</span>
+              <span className="userShowUserName">{user.username}</span>
               <span className="userShowUserTitle">Idol KPOP</span>
             </div>
           </div>
@@ -38,7 +93,7 @@ export default function User() {
             <span className="userShowTitle">Account Details</span>
             <div className="userShowInfo">
               <PermIdentity className="userShowIcon" />
-              <span className="userShowInfoTitle">lalisa97</span>
+              <span className="userShowInfoTitle">{user.fullname}</span>
             </div>
             <div className="userShowInfo">
               <CalendarToday className="userShowIcon" />
@@ -47,67 +102,78 @@ export default function User() {
             <span className="userShowTitle">Contact Details</span>
             <div className="userShowInfo">
               <PhoneAndroid className="userShowIcon" />
-              <span className="userShowInfoTitle">+86235235235</span>
+              <span className="userShowInfoTitle">{user.phone}</span>
             </div>
             <div className="userShowInfo">
               <MailOutline className="userShowIcon" />
-              <span className="userShowInfoTitle">lalisa97@gmail.com</span>
+              <span className="userShowInfoTitle">{user.email}</span>
             </div>
             <div className="userShowInfo">
               <LocationSearching className="userShowIcon" />
-              <span className="userShowInfoTitle">New York | Viet Nam</span>
+              <span className="userShowInfoTitle">{user.address}</span>
             </div>
           </div>
         </div>
         <div className="userUpdate">
           <span className="userUpdateTitle">Edit</span>
-          <form className="userUpdateForm">
+          <form onSubmit={updateUser} className="userUpdateForm">
             <div className="userUpdateLeft">
               <div className="userUpdateItem">
                 <label>Username</label>
                 <input
                   type="text"
-                  placeholder="lalisa97"
+                  placeholder={user.username}
                   className="userUpdateInput"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
               <div className="userUpdateItem">
                 <label>Full name</label>
                 <input
                   type="text"
-                  placeholder="Manoban Lalisa"
+                  placeholder={user.fullname}
                   className="userUpdateInput"
+                  value={fullname}
+                  onChange={(e) => setFullname(e.target.value)}
+                
                 />
               </div>
               <div className="userUpdateItem">
                 <label>Phone</label>
                 <input
                   type="text"
-                  placeholder="+86235235235"
+                  placeholder={user.phone}
                   className="userUpdateInput"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
               <div className="userUpdateItem">
                 <label>Email</label>
                 <input
                   type="text"
-                  placeholder="lalisa97@gmail.com"
+                  placeholder={user.email}
                   className="userUpdateInput"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="userUpdateItem">
                 <label>Address</label>
                 <input
                   type="text"
-                  placeholder="New York | Viet Nam"
+                  placeholder={user.address}
                   className="userUpdateInput"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
                 />
               </div>
             </div>
             <div className="userUpdateRight">
               <div className="userUpdateUpload">
                 <img
-                  src="https://kenh14cdn.com/203336854389633024/2021/5/3/photo-1-16200171229011709666303.jpg"
+                  src="https://vcdn1-giaitri.vnecdn.net/2020/11/03/lisa-3-1604394414.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=Uzqm3erCQJd3bC_65SfkrQ"
                   alt=""
                   className="userUpdateImg"
                 />
