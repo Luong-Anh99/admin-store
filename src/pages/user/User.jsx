@@ -29,7 +29,7 @@ export default function User() {
       name: "",
       email: "",
       phone: "",
-      password: "",
+     // password: "",
     },
     onSubmit: (values) => {
       console.log("this value", values);
@@ -70,7 +70,7 @@ export default function User() {
           formik.setFieldValue("name", user?.name )
           formik.setFieldValue("email", user?.email )
           formik.setFieldValue("phone", user?.phone )
-          formik.setFieldValue("password", user?.password )
+          //formik.setFieldValue("password", user?.password )
         }
       } catch (error) {
         console.log("error:", error);
@@ -123,7 +123,7 @@ export default function User() {
             placeholder="Phone Number"
           />
         </div>
-        <div className="newUserItem">
+        {/* <div className="newUserItem">
           <label>Password</label>
           <input
             required
@@ -133,7 +133,7 @@ export default function User() {
             type="text"
             placeholder="Password"
           />
-        </div>
+        </div> */}
 
         <div className="btnBox">
           <Link className="cancel" to="/users">

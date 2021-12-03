@@ -65,19 +65,19 @@ export default function UserList() {
       render: (text) => <div>{text}</div>,
     },
 
-    {
-      title: "Password",
-      dataIndex: "password",
-      key: "password",
-      render: (text) => (
-        <input
-          style={{ border: "none" }}
-          readOnly
-          type="password"
-          defaultValue={text}
-        />
-      ),
-    },
+    // {
+    //   title: "Password",
+    //   dataIndex: "password",
+    //   key: "password",
+    //   render: (text) => (
+    //     <input
+    //       style={{ border: "none" }}
+    //       readOnly
+    //       type="password"
+    //       defaultValue={text}
+    //     />
+    //   ),
+    // },
 
     {
       title: "Action",

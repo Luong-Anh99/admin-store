@@ -3,9 +3,9 @@ import queryString from 'query-string';
 
 const axiosClient = axios.create({
   //baseURL: "https://612f3e665fc50700175f1512.mockapi.io/api/v1",
-     baseURL: process.env.REACT_APP_API_URL,
+    baseURL: process.env.REACT_APP_API_URL,
     headers: {
-      'content-type': 'application/json',
+      'Content-type': 'application/json',
     },
     paramsSerializer: params => {
       queryString.stringify(params)},
@@ -33,18 +33,20 @@ const axiosClient = axios.create({
   ///
 
 // import axios from "axios";
+// import Cookies from 'js-cookie'
 
 // const axiosClient = axios.create({
 // 	baseURL: process.env.REACT_APP_API_URL,
 // 	headers: {
-// 		"Content-Type": "application/json",
+// 		'Content-type': 'application/json',
 // 	},
 // 	withCredentials: true,
 // });
 
 // axiosClient.interceptors.request.use(async (config) => {
-// 	const auth = JSON.parse(localStorage.getItem("auth"));
-// 	const token = auth ? auth.jwToken : null;
+// 	const auth = Cookies.get('auth');
+// //	const token = auth ? auth.jwToken : null;
+//   const token = auth ? auth : null;
 // 	if (token) {
 // 		config.headers.authorization = `Bearer ${token}`;
 // 	}
@@ -60,7 +62,7 @@ const axiosClient = axios.create({
 // 	},
 // 	(error) => {
 // 		if (error.response && error.response.status === 401) {
-// 	//		localStorage.removeItem("auth");
+// 	//		Cookies.remove('name')
 // 			window.location.reload();
 // 		}
 // 		throw error;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./category.css";
+import "./size.css";
 
 //redux
 import { useDispatch } from "react-redux";
@@ -22,12 +22,14 @@ import { useFormik } from "formik";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import categoryApi from "../../api/categoryApi";
 
-export default function Category() {
+import categoryApi from "../../api/categoryApi";
+import sizeApi from "../../api/sizeApi";
+
+export default function Size() {
   const formik = useFormik({
     initialValues: {
-      name: "",
+      sizeNumber: "",
     },
     onSubmit: (values) => {
       console.log("this value", values);
@@ -40,19 +42,19 @@ export default function Category() {
 
   const id = useParams();
 
-  const idCate = id?.categoryId;
+  const idSize = id?.sizeId;
 
   const handleSubmit = async (values) => {
     try {
-      const response = await categoryApi.update(idCate ,values);
+      const response = await sizeApi.update(idSize ,values);
       if (response) {
-        toast.success("Update User success!");
+        toast.success("Update Size success!");
 
         setTimeout(() => {
           // localStorage.clear();
-          history.push("/categories");
+          history.push("/sizes");
           // window.location.reload();
-        }, 2000);
+        }, 1000);
       }
     } catch (error) {
       toast.error("Add fail because " + error.message, { autoClose: false });
@@ -62,10 +64,11 @@ export default function Category() {
   useEffect(() => {
     const fetchTotoList = async () => {
       try {
-        const response = await categoryApi.get(idCate);
+        const response = await sizeApi.get(idSize);
         if (response) {
-          let category = response.category
-          formik.setFieldValue("name", category?.name )
+          console.log("rep", response)
+          let size = response.size
+          formik.setFieldValue("sizeNumber", size?.sizeNumber )
         }
       } catch (error) {
         console.log("error:", error);
@@ -79,28 +82,28 @@ export default function Category() {
   return (
     <div className="newUser">
       <ToastContainer autoClose={5000} />
-      <h1 className="newUserTitle">Edit Category</h1>
+      <h1 className="newUserTitle">Edit Size</h1>
       <form
         onSubmit={formik.handleSubmit}
         action="submit"
         className="newUserForm"
       >
         <div className="newUserItem">
-          <label>Type Category</label>
+          <label>Size current</label>
           <input
             required
             type="text"
-            name="name"
-            placeholder="Name "
+            name="sizeNumber"
+            placeholder="size "
             onChange={formik.handleChange}
-            value={formik.values.name}
+            value={formik.values.sizeNumber}
           />
         </div>
         
         
 
         <div className="btnBox">
-          <Link className="cancel" to="/categories">
+          <Link className="cancel" to="/sizes">
             <button className="cancelButton">Cancel</button>
           </Link>
           <button className="newUserButton" type="submit">

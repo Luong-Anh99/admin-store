@@ -99,6 +99,7 @@ export default function OrderList() {
             <button className="userListEdit">Edit</button>
           </Link>
           <DeleteOutline
+            style={{display:"none"}}
             className="userListDelete"
             onClick={() => handleDelete(params._id)}
           />
