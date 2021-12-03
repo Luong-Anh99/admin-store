@@ -1,4 +1,4 @@
-.productList{
+/* .productList{
     flex: 4;
 }
 
@@ -28,4 +28,56 @@
 .productListDelete {
     color: red;
     cursor: pointer;
+}
+ */
+
+ 
+ .productList{
+    flex: 4;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+.userListUser {
+    display: flex;
+    align-items: center;
+}
+
+.productTitleContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.userListImg {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.userListEdit {
+    border: none;
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-color: rgb(135, 216, 189);
+    color: white;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.userListDelete {
+    color: red;
+    cursor: pointer;
+}
+
+.productAddButton {
+    width: 100px;
+    height: 50px;
+    cursor: pointer;
+    color: white;
+    border: none;
+    background-color: rgb(47, 146, 113);
 }

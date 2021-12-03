@@ -4,99 +4,121 @@ import "./newUser.css";
 //redux
 import { useDispatch } from "react-redux";
 
-
 //api
-import todoApi from "../../api/todoApi";
-import {addUser} from '../../redux/user/userAction'
+import userApi from "../../api/userApi";
+import { addUser } from "../../redux/user/userAction";
+
+//router
+import {
+  useParams,
+  useLocation,
+  useHistory,
+  useRouteMatch,
+  Link,
+} from "react-router-dom";
+import { useFormik } from "formik";
+
+//notification
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 export default function NewUser() {
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      phone: "",
+      password: "",
+    },
+    onSubmit: (values) => {
+      console.log("this value", values);
 
-  const[username, setUsername] = useState("");
-  const[fullname, setFullname] = useState("");
-  const[email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-  const [gender, setGender] = useState("");
-  const [active, setActive] = useState("yes");
+      handleSubmit(values);
+    },
+  });
 
-  const dispatch = useDispatch();
+  const history = useHistory();
 
+  const handleSubmit = async (values) => {
+    try {
+      const response = await userApi.add(values);
+      if (response) {
+        toast.success("Add new User success!");
 
-  const handleAddUser = async (e) => {
-    e.preventDefault();
-    const user = {
-      id:"123",
-      username: username,
-      fullname: fullname,
-      email:email,
-      password:password,
-      phone:phone,
-      address:address,
-      gender:gender,
-      active:active
+        setTimeout(() => {
+          // localStorage.clear();
+          history.push("/users");
+          // window.location.reload();
+        }, 2000);
+      }
+    } catch (error) {
+      toast.error("Add fail because " + error.message, { autoClose: false });
     }
-    console.log("newUser", user);
-    try {    
-      await (todoApi.add(user));
-      dispatch(addUser(user));
-    } catch (error){
-      console.log(error);
-    }
-    setUsername("");
-    setFullname("");
-    setEmail("");
-    setPassword("");
-    setPhone("");
-    setAddress("")
-  }
-
+  };
 
   return (
     <div className="newUser">
-      <h1 className="newUserTitle">New User</h1>
-      <form className="newUserForm">
+      <ToastContainer autoClose={5000} />
+      <h1 className="newUserTitle">Create New User</h1>
+      <form
+        onSubmit={formik.handleSubmit}
+        action="submit"
+        className="newUserForm"
+      >
         <div className="newUserItem">
           <label>Username</label>
-          <input type="text" placeholder="Jack" value={username} onChange={(e) => setUsername(e.target.value)} />
-        </div>
-        <div className="newUserItem">
-          <label>Full Name</label>
-          <input type="text" placeholder="Antonio" value={fullname} onChange={(e) => setFullname(e.target.value)}  />
+          <input
+            required
+            type="text"
+            name="name"
+            placeholder="Name "
+            onChange={formik.handleChange}
+            value={formik.values.name}
+          />
         </div>
         <div className="newUserItem">
           <label>Email</label>
-          <input type="text" placeholder="khima@gmail.com" value={email} onChange={(e) => setEmail(e.target.value)}/>
-        </div>
-        <div className="newUserItem">
-          <label>Password</label>
-          <input type="password" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <input
+            required
+            type="text"
+            placeholder="Email"
+            name="email"
+            onChange={formik.handleChange}
+            value={formik.values.email}
+          />
         </div>
         <div className="newUserItem">
           <label>Phone</label>
-          <input type="text" placeholder="+0921412415" value={phone} onChange={(e) => setPhone(e.target.value)} />
+          <input
+            required
+            type="text"
+            name="phone"
+            onChange={formik.handleChange}
+            value={formik.values.phone}
+            placeholder="Phone Number"
+          />
         </div>
         <div className="newUserItem">
-          <label>Address</label>
-          <input type="text" placeholder="Ha Noi | Viet Nam" value={address} onChange={(e) => setAddress(e.target.value)} />
+          <label>Password</label>
+          <input
+            required
+            name="password"
+            onChange={formik.handleChange}
+            value={formik.values.password}
+            type="text"
+            placeholder="Password"
+          />
         </div>
-        <div className="newUserItem">
-          <label>Gender</label>
-          <div className="newUserGender">
-            <input type="radio" name="gender" id="male" value="male" onClick={(e) => setGender(e.target.value)} />
-            <label for="male">Male</label>
-            <input type="radio" name="gender" id="female" value="female" onClick={(e) => setGender(e.target.value)}/>
-            <label for="female">Female</label>
-          </div>
+
+        <div className="btnBox">
+          <Link className="cancel" to="/users">
+            <button className="cancelButton">Cancel</button>
+          </Link>
+          <button className="newUserButton" type="submit">
+            Create
+          </button>
         </div>
-        <div className="newUserItem">
-          <label>Active</label>
-          <select className="newUserSelect" name="active" id="active"  onChange={(e) => setActive(e.target.value)}>
-            <option value="yes" >Yes</option>
-            <option value="no" >No</option>
-          </select>
-        </div>
-        <button className="newUserButton" onClick={handleAddUser} >Create</button>
       </form>
     </div>
   );

@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
-import { useSelector ,useDispatch } from "react-redux";
-import{setUser} from "./redux/user/userAction"
+import { useSelector, useDispatch } from "react-redux";
+import { setUser } from "./redux/user/userAction";
 
 import Sidebar from "./components/sidebar/Sidebar";
 import Topbar from "./components/topbar/Topbar";
@@ -17,12 +17,17 @@ import ProductList from "./pages/productList/ProductList";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
 import todoApi from "./api/todoApi";
+import Login from "./pages/login/Login";
+import OrderList from "./pages/order-list/OrderList";
 
-
-
+import Order from "./pages/order/Order"
+import CategoryList from "./pages/category-list/CategoryList";
+import NewCategory from "./pages/new-category/NewCategory";
+import Category from "./pages/category/Category";
+import SizeList from "./pages/size-list/SizeList";
+import NewSize from "./pages/new-size/NewSize";
 
 function App() {
-
   // const dispatch = useDispatch();
 
   // useEffect(() => {
@@ -33,15 +38,16 @@ function App() {
   //     } catch(error) {
   //       console.log("error:", error);
   //     }
-  //   }    
-    
+  //   }
+
   //   fetchTotoList();
   // }, [])
 
-
-
   return (
     <Router>
+      <Route path="/login">
+        <Login />
+      </Route>
       <Topbar />
       <div className="container">
         <Sidebar />
@@ -67,6 +73,40 @@ function App() {
           <Route path="/newProduct">
             <NewProduct />
           </Route>
+
+
+          <Route path="/order/:orderId">
+            <Order />
+          </Route>
+          <Route path="/orders">
+            <OrderList />
+          </Route>
+
+           <Route path="/newCategory">
+            <NewCategory />
+          </Route>
+
+          <Route path="/category/:categoryId">
+            <Category />
+          </Route> 
+
+          <Route path="/categories">
+            <CategoryList />
+          </Route>
+
+           <Route path="/newSize">
+            <NewSize/>
+          </Route>
+{/*
+          <Route path="/size/:sizeId">
+            <Size />
+          </Route>  */}
+
+          <Route path="/sizes">
+            <SizeList />
+          </Route>
+
+
         </Switch>
       </div>
     </Router>

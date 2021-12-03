@@ -8,13 +8,14 @@ const INIT_STATE ={
 const userReducer=(state=INIT_STATE, action) => {
     const {users} = state;
     const list = JSON.parse(JSON.stringify(users));
+
     
     switch (action.type) {
         case SET_USER: 
             return {...state, users: action.user}
         case DELETE_USER: 
             return Object.assign({}, state, {
-                users: list.filter((user) => user.id !== action.id)
+                users: list.filter((user) => user._id !== action.id)
             })
         case ADD_USER:
             return Object.assign({}, state, {
