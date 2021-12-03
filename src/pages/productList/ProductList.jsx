@@ -137,10 +137,11 @@ export default function ProductList() {
 
   const columns = [
     {
+      width:300,
       title: "Name",
       dataIndex: "title",
       key: "title",
-      render: (text) => <div>{text}</div>,
+      render: (text) =>  <div>{text.substring(0,40)}...</div>
     },
     {
       title: "Create Date",
@@ -154,6 +155,9 @@ export default function ProductList() {
       title: "Description",
       dataIndex: "description",
       key: "description",
+      render: (text) => (
+        <div>{text.substring(0,20)}...</div>
+      ),
     },
     {
       title: "Price",
@@ -165,7 +169,7 @@ export default function ProductList() {
       title: "Image",
       dataIndex: "image01",
       key: "image01",
-      render: (text) => <img style={{ width: "50px" }} src={text}></img>,
+      render: (text) => <img style={{ width: "100px" }} src={text}></img>,
     },
     {
       title: "Action",

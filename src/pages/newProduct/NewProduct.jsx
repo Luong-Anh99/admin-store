@@ -67,7 +67,7 @@ export default function NewProduct() {
           // localStorage.clear();
           history.push("/products");
           // window.location.reload();
-        }, 2000);
+        }, 1000);
       }
     } catch (error) {
       toast.error("Add fail because " + error.message, { autoClose: false });
