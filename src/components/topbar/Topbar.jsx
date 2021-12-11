@@ -16,21 +16,34 @@ import { toast } from "react-toastify";
 
 import jwtDecode from "jwt-decode";
 import axios from "axios";
+import { useGridApiEventHandler } from "@material-ui/data-grid";
 
 export default function Topbar(props) {
   const auth = Cookies.get("auth");
   console.log("this auth", jwtDecode(auth));
 
-  const handleLogout = () => {
-    try {
-      toast.success("Logout success");
-      window.location.reload();
-      Cookies.remove("auth");
-    } catch (error) {
-      toast.error("fail because " + error.message, { autoClose: false });
-    }
+  const handleLogout = async () => {
+    // try {
+    //   toast.success("Logout success");
+    //   window.location.reload();
+    //   Cookies.remove("auth");
+    // } catch (error) {
+    //   toast.error("fail because " + error.message, { autoClose: false });
+    // }
     // window.location.reload();
     // Cookies.remove('auth')
+
+    try {
+      const response = await userApi.logout();
+      if (response) {
+        console.log("123")
+        toast.success("Logout success");      
+        window.location.reload();
+        Cookies.remove("auth");
+      }
+    } catch (error) {
+      toast.error(error, { autoClose: false });
+    }
   };
 
   // const handleLogout = async () => {

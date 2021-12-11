@@ -99,7 +99,7 @@ export default function UserList() {
   return (
     <div className="userList">
       <div className="userTitleContainer">
-        <h1 className="userTitle">List User</h1>
+        <h1 className="userTitle">List Employee</h1>
         <Link to="/newUser">
           <div className="buttonBox">
             <button className="userAddButton">Create</button>

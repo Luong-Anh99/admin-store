@@ -51,7 +51,7 @@ const Login = (props) => {
 
       }
     } catch (error) {
-      toast.error("Invalid email or password, try again ? " + error.message, { autoClose: false });
+      toast.error(error , { autoClose: false });
     }
   };
 

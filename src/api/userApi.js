@@ -4,7 +4,7 @@ import axiosClient from "./axiosClient";
 const userApi = {
   getAll: (params) => {
     const url = '/admin/users';
-    return axiosClient.get(url, { params });
+    return axiosClient.get(url, { withCredentials: true });
 
   },
 
