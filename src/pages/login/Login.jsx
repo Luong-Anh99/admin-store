@@ -40,24 +40,24 @@ const Login = (props) => {
   const handleSubmit = async (values) => {
     try {
       const response = await userApi.login(values);
+      console.log("status: ", response?.status)
       if (response) {
         toast.success("Login success!");
 
-        console.log("response", response.user.token)
+        console.log("status1: ", response)
 
         Cookies.set('auth', response.user.token)
 
-        props.history.push("/")
+        props.history.push("/") 
 
+      } else {
+        console.log("status2: ", response)
       }
     } catch (error) {
-      toast.error(error , { autoClose: false });
+      toast.error("invalid username or password, try again?");
     }
   };
 
-  const history = useHistory();
-
-  console.log("ec", Cookies.get('token'))
 
   return (
     <div className="login">

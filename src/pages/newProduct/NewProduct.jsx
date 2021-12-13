@@ -270,7 +270,7 @@ export default function NewProduct() {
               name="price"
               onChange={formik.handleChange}
               value={formik.values.price}
-              type="text"
+              type="number"
               placeholder="Price product"
               required
             />
