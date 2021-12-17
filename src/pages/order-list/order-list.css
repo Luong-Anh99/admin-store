@@ -48,3 +48,9 @@
 .active {
     background-color: aquamarine;
 }
+
+.userTitle {
+    font-weight: bold;
+    font-size: 24px;
+    color: rgb(43, 136, 105);
+}

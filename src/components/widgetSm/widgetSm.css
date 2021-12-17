@@ -4,6 +4,19 @@
     box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     padding: 20px;
     margin-right: 20px;
+
+}
+
+
+
+.dataProductRecent {
+    height: 70vh;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.dataProductRecent::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
 }
 
 .widgetSmTitle{

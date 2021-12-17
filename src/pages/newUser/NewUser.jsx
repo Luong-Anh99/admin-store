@@ -1,21 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import "./newUser.css";
 
 //redux
-import { useDispatch } from "react-redux";
 
 //api
 import userApi from "../../api/userApi";
-import { addUser } from "../../redux/user/userAction";
 
 //router
-import {
-  useParams,
-  useLocation,
-  useHistory,
-  useRouteMatch,
-  Link,
-} from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { useFormik } from "formik";
 
 //notification

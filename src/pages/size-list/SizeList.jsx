@@ -1,23 +1,14 @@
 import React, { useEffect, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
 
 import "./sizeList.css";
 
-import { userRows } from "../../dummyData";
-
-import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
-import categoryApi from "../../api/categoryApi";
+import { Table, Space } from "antd";
 
-import { setCategory, deleteCategory } from "../../redux/category/categoryAction";
-
-import { Table, Tag, Space } from "antd";
-import moment from "moment";
-import categoriesApi from "../../api/categoryApi";
 import sizeApi from "../../api/sizeApi";
 import { deleteSize, setSize } from "../../redux/size/sizeAction";
 
@@ -26,13 +17,18 @@ export default function SizeList() {
 
   const listSize = useSelector((state) => state.sizes.sizes);
 
+  const [loading, setLoading] = useState(true);
+
   //dispatch(setUser(response.users))
 
   useEffect(() => {
     const fetchTotoList = async () => {
       try {
         const response = await sizeApi.getAll();
-        if (response) dispatch(setSize(response.sizes));
+        if (response) {
+          dispatch(setSize(response.sizes));
+          setLoading(false);
+        }
       } catch (error) {
         console.log("error:", error);
       }
@@ -91,6 +87,7 @@ export default function SizeList() {
         </Link>
       </div>
       <Table
+        loading={loading}
         columns={columns}
         pagination={{ pageSize: 5 }}
         dataSource={listSize}

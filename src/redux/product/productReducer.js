@@ -1,5 +1,5 @@
 
-import {SET_PRODUCT, ADD_PRODUCT, UPDATE_PRODUCT, DELETE_PRODUCT} from './productAction'
+import {SET_PRODUCT, ADD_PRODUCT, DELETE_PRODUCT} from './productAction'
 
 const INIT_STATE ={
     products: []

@@ -1,88 +1,70 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./widgetSm.css";
-import {Visibility} from "@material-ui/icons"
+import { Visibility } from "@material-ui/icons";
+import chartApi from "../../api/chartAPI";
+import { Table, Tag, Space } from "antd";
+import numberWithCommas from "../../utils/numberWithCommas";
+import { Link } from "react-router-dom";
 
 export default function WidgetSm() {
+  const [productRecent, setProductRecent] = useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTotoList = async () => {
+      try {
+        const res = await chartApi.getAll();
+        if (res) {
+          setProductRecent(res?.mostRecent5Products);
+
+          setLoading(false);
+        }
+      } catch (error) {
+        console.log("error:", error);
+      }
+    };
+
+    fetchTotoList();
+  }, []);
+
+  const columns = [
+    {
+      title: "Name",
+      dataIndex: "title",
+      key: "title",
+      render: (text) => <div>{text.substring(0, 10)}...</div>,
+    },
+
+    {
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+      render: (text) => <div>{numberWithCommas(text)} $</div>,
+    },
+    {
+      title: "Image",
+      dataIndex: "image01",
+      key: "image01",
+      render: (text) => <img style={{ width: "80px" }} src={text}></img>,
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (params) => (
+        <Link to={"/product/" + params._id}>
+          <button className="widgetSmButton">
+            <Visibility className="widgetSmIcon" />
+          </button>
+        </Link>
+      ),
+    },
+  ];
   return (
     <div className="widgetSm">
-      <span className="widgetSmTitle">New Join Members</span>
-      <ul className="widgetSmList">
-        <li className="widgetSmListItem">
-          <img
-            src="https://i.pinimg.com/474x/a9/e6/85/a9e685315c3761f64bf490264c3e1421.jpg"
-            alt=""
-            className="widgetSmImg"
-          />
-          <div className="widgetSmUser">
-            <span className="widgetSmUserName">Antonio</span>
-            <span className="widgetSmUserTitle">Best Developer</span>
-          </div>
-          <button className="widgetSmButton">
-              <Visibility className="widgetSmIcon"/>
-              Display
-          </button>
-        </li>
-        <li className="widgetSmListItem">
-          <img
-            src="https://i.pinimg.com/474x/a9/e6/85/a9e685315c3761f64bf490264c3e1421.jpg"
-            alt=""
-            className="widgetSmImg"
-          />
-          <div className="widgetSmUser">
-            <span className="widgetSmUserName">Antonio</span>
-            <span className="widgetSmUserTitle">Best Developer</span>
-          </div>
-          <button className="widgetSmButton">
-              <Visibility className="widgetSmIcon"/>
-              Display
-          </button>
-        </li>
-        <li className="widgetSmListItem">
-          <img
-            src="https://i.pinimg.com/474x/a9/e6/85/a9e685315c3761f64bf490264c3e1421.jpg"
-            alt=""
-            className="widgetSmImg"
-          />
-          <div className="widgetSmUser">
-            <span className="widgetSmUserName">Antonio</span>
-            <span className="widgetSmUserTitle">Best Developer</span>
-          </div>
-          <button className="widgetSmButton">
-              <Visibility className="widgetSmIcon"/>
-              Display
-          </button>
-        </li>
-        <li className="widgetSmListItem">
-          <img
-            src="https://i.pinimg.com/474x/a9/e6/85/a9e685315c3761f64bf490264c3e1421.jpg"
-            alt=""
-            className="widgetSmImg"
-          />
-          <div className="widgetSmUser">
-            <span className="widgetSmUserName">Antonio</span>
-            <span className="widgetSmUserTitle">Best Developer</span>
-          </div>
-          <button className="widgetSmButton">
-              <Visibility className="widgetSmIcon"/>
-              Display
-          </button>
-        </li>
-        <li className="widgetSmListItem">
-          <img
-            src="https://i.pinimg.com/474x/a9/e6/85/a9e685315c3761f64bf490264c3e1421.jpg"
-            alt=""
-            className="widgetSmImg"
-          />
-          <div className="widgetSmUser">
-            <span className="widgetSmUserName">Antonio</span>
-            <span className="widgetSmUserTitle">Best Developer</span>
-          </div>
-          <button className="widgetSmButton">
-              <Visibility className="widgetSmIcon"/>
-              Display
-          </button>
-        </li>
-      </ul>
+      <span className="widgetSmTitle">New Product Recent</span>
+      <div className="dataProductRecent">
+        <Table loading={loading} columns={columns} dataSource={productRecent} />
+      </div>
     </div>
   );
 }

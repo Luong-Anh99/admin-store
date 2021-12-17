@@ -1,5 +1,5 @@
 
-import {SET_USER, ADD_USER, UPDATE_USER, DELETE_USER} from './userAction'
+import {SET_USER, ADD_USER, DELETE_USER} from './userAction'
 
 const INIT_STATE ={
     users: []

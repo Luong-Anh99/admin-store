@@ -1,97 +1,17 @@
-// import React, { useState } from "react";
-// import "./productList.css";
-
-// import { productRows } from "../../dummyData";
-
-// import { DataGrid } from "@material-ui/data-grid";
-// import { DeleteOutline } from "@material-ui/icons";
-// import { Link } from "react-router-dom";
-
-// export default function ProductList() {
-//   const [data, setData] = useState(productRows);
-
-//   const handleDelete = (id) => {
-//     setData(data.filter((item) => item.id !== id));
-//   };
-
-//   const columns = [
-//     { field: "id", headerName: "ID", width: 90 },
-//     {
-//       field: "product",
-//       headerName: "Product",
-//       width: 200,
-//       renderCell: (params) => {
-//         return (
-//           <div className="productListItem">
-//             <img className="productListImg" src={params.row.image} alt="" />
-//             {params.row.name}
-//           </div>
-//         );
-//       },
-//     },
-//     { field: "stock", headerName: "Stock", width: 150 },
-//     {
-//       field: "status",
-//       headerName: "Status",
-//       width: 120,
-//     },
-//     {
-//       field: "price",
-//       headerName: "Price",
-//       width: 160,
-//     },
-//     {
-//       field: "action",
-//       headerName: "Action",
-//       width: 150,
-//       renderCell: (params) => {
-//         return (
-//           <>
-//             <Link to={"/product/" + params.row.id}>
-//               <button className="productListEdit">Edit</button>
-//             </Link>
-//             <DeleteOutline
-//               className="productListDelete"
-//               onClick={() => handleDelete(params.row.id)}
-//             />
-//           </>
-//         );
-//       },
-//     },
-//   ];
-//   return (
-//     <div className="productList">
-//       <DataGrid
-//         rows={data}
-//         disableSelectionOnClick
-//         columns={columns}
-//         pageSize={10}
-//         rowsPerPageOptions={[5]}
-//         checkboxSelection
-//       />
-//     </div>
-//   );
-// }
-
 import React, { useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
 
 import "./productList.css";
 
-import { userRows } from "../../dummyData";
-
-import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 import productApi from "../../api/productApi";
-import todoApi from "../../api/todoApi";
 
 import { useDispatch } from "react-redux";
 import { setProduct, deleteProduct } from "../../redux/product/productAction";
-import { Table, Tag, Space } from "antd";
+import { Table, Space } from "antd";
 import "antd/dist/antd.css";
 import moment from "moment";
 import numberWithCommas from "../../utils/numberWithCommas";
@@ -104,11 +24,16 @@ import { toast } from "react-toastify";
 export default function ProductList() {
   const dispatch = useDispatch();
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchTotoList = async () => {
       try {
         const response = await productApi.getAll();
-        if (response) dispatch(setProduct(response.products));
+        if (response) {
+          dispatch(setProduct(response.products));
+          setLoading(false);
+        }
       } catch (error) {
         console.log("error:", error);
       }
@@ -120,28 +45,23 @@ export default function ProductList() {
   const listProduct = useSelector((state) => state.products.products);
 
   const handleDelete = async (id) => {
-
-    console.log("id", id)
+    console.log("id", id);
     try {
       dispatch(deleteProduct(id));
-      toast.warn("Delete Success")
+      toast.warn("Delete Success");
       await productApi.delete(id);
-      
     } catch (error) {
       console.log(error);
     }
   };
 
-
-
-
   const columns = [
     {
-      width:300,
+      width: 300,
       title: "Name",
       dataIndex: "title",
       key: "title",
-      render: (text) =>  <div>{text.substring(0,40)}...</div>
+      render: (text) => <div>{text.substring(0, 40)}...</div>,
     },
     {
       title: "Create Date",
@@ -155,9 +75,7 @@ export default function ProductList() {
       title: "Description",
       dataIndex: "description",
       key: "description",
-      render: (text) => (
-        <div>{text.substring(0,20)}...</div>
-      ),
+      render: (text) => <div>{text.substring(0, 20)}...</div>,
     },
     {
       title: "Price",
@@ -186,15 +104,15 @@ export default function ProductList() {
         </Space>
       ),
     },
-  ]
+  ];
 
-  console.log("tlisst product", listProduct)
+  console.log("tlisst product", listProduct);
 
   return (
     <div className="productList">
-       <ToastContainer autoClose={5000} />
+      <ToastContainer autoClose={5000} />
       <div className="productTitleContainer">
-        <h1 className="productTitle">List Product</h1>
+        <h1 className="userTitle">List Product</h1>
         <Link to="/newProduct">
           <button className="productAddButton">Create one</button>
         </Link>
@@ -208,9 +126,10 @@ export default function ProductList() {
       /> */}
 
       <Table
+        loading={loading}
         columns={columns}
         pagination={{ pageSize: 5 }}
-        dataSource={listProduct.filter((x) => x.isRemoved ===false)}
+        dataSource={listProduct.filter((x) => x.isRemoved === false)}
       />
     </div>
   );

@@ -3,26 +3,16 @@ import logo from "../../assets/logo.png";
 import imageLogin from "../../assets/imageLogin.jpg";
 import "./login.scss";
 
-import auth from "../../components/authentication/authentication";
-
 import { useFormik } from "formik";
 
 import userApi from "../../api/userApi";
-
-import {
-  useParams,
-  useLocation,
-  useHistory,
-  useRouteMatch,
-  Link,
-} from "react-router-dom";
 
 //notification
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 
-import Cookies from 'js-cookie'
+import Cookies from "js-cookie";
 
 const Login = (props) => {
   const formik = useFormik({
@@ -40,24 +30,22 @@ const Login = (props) => {
   const handleSubmit = async (values) => {
     try {
       const response = await userApi.login(values);
-      console.log("status: ", response?.status)
+      console.log("status: ", response?.status);
       if (response) {
         toast.success("Login success!");
 
-        console.log("status1: ", response)
+        console.log("status1: ", response);
 
-        Cookies.set('auth', response.user.token)
+        Cookies.set("auth", response.user.token);
 
-        props.history.push("/") 
-
+        props.history.push("/");
       } else {
-        console.log("status2: ", response)
+        console.log("status2: ", response);
       }
     } catch (error) {
       toast.error("invalid username or password, try again?");
     }
   };
-
 
   return (
     <div className="login">

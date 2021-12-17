@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./newProduct.scss";
 import { useFormik } from "formik";
-import { Formik, Field, Form } from "formik";
 
 import productApi from "../../api/productApi.js";
 
@@ -14,12 +13,10 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 
-import FileBase64 from "react-file-base64";
-
 //firebase
 import { storage } from "../../firebase";
 
-import { Link, useLocation, useParams, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import newImage from "../../assets/images/newImage.jpg";
 
@@ -407,9 +404,8 @@ export default function NewProduct() {
                 src={url ? url : newImage}
                 alt=""
               />
-               <progress style={{ width: "100%" }} value={progress} max="100" />
+              <progress style={{ width: "100%" }} value={progress} max="100" />
             </div>
-           
           </div>
 
           <div className="new__form__image__item">

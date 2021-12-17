@@ -26,11 +26,14 @@ export default function CategoryList() {
 
   //dispatch(setUser(response.users))
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchTotoList = async () => {
       try {
         const response = await categoryApi.getAll();
-        if (response) dispatch(setCategory(response.categories));
+        if (response) {dispatch(setCategory(response.categories))
+        setLoading(false)}
       } catch (error) {
         console.log("error:", error);
       }
@@ -47,6 +50,8 @@ export default function CategoryList() {
       console.log(error);
     }
   };
+
+  
 
   const columns = [
     {
@@ -110,6 +115,7 @@ export default function CategoryList() {
         </Link>
       </div>
       <Table
+      loading={loading}
         columns={columns}
         pagination={{ pageSize: 5 }}
         dataSource={listCategory}

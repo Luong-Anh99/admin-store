@@ -1,21 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./size.css";
 
 //redux
-import { useDispatch } from "react-redux";
-
-//api
-import userApi from "../../api/userApi";
-import { addUser } from "../../redux/user/userAction";
 
 //router
-import {
-  useParams,
-  useLocation,
-  useHistory,
-  useRouteMatch,
-  Link,
-} from "react-router-dom";
+import { useParams, useHistory, Link } from "react-router-dom";
 import { useFormik } from "formik";
 
 //notification
@@ -23,7 +12,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 
-import categoryApi from "../../api/categoryApi";
 import sizeApi from "../../api/sizeApi";
 
 export default function Size() {
@@ -46,7 +34,7 @@ export default function Size() {
 
   const handleSubmit = async (values) => {
     try {
-      const response = await sizeApi.update(idSize ,values);
+      const response = await sizeApi.update(idSize, values);
       if (response) {
         toast.success("Update Size success!");
 
@@ -66,9 +54,9 @@ export default function Size() {
       try {
         const response = await sizeApi.get(idSize);
         if (response) {
-          console.log("rep", response)
-          let size = response.size
-          formik.setFieldValue("sizeNumber", size?.sizeNumber )
+          console.log("rep", response);
+          let size = response.size;
+          formik.setFieldValue("sizeNumber", size?.sizeNumber);
         }
       } catch (error) {
         console.log("error:", error);
@@ -78,7 +66,7 @@ export default function Size() {
     fetchTotoList();
   }, []);
 
- // console.log("formik", formik.values)
+  // console.log("formik", formik.values)
   return (
     <div className="newUser">
       <ToastContainer autoClose={5000} />
@@ -99,8 +87,6 @@ export default function Size() {
             value={formik.values.sizeNumber}
           />
         </div>
-        
-        
 
         <div className="btnBox">
           <Link className="cancel" to="/sizes">

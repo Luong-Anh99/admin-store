@@ -1,10 +1,7 @@
-import { Publish } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Chart from "../../components/chart/Chart";
-import { productData } from "../../dummyData";
 
-import { useLocation, useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
 import "./order.scss";
 import { useSelector } from "react-redux";
@@ -16,15 +13,13 @@ import { toast } from "react-toastify";
 import numberWithCommas from "../../utils/numberWithCommas";
 
 export default function Product() {
-  const listOrders = useSelector((state) => state.orders.orders);
-
   const [order, setOrder] = useState();
 
   const [status, setStatus] = useState();
 
   const [click, setClick] = useState();
 
-  const history = useHistory()
+  const history = useHistory();
 
   const id = useParams();
 
@@ -39,7 +34,7 @@ export default function Product() {
         if (response) {
           setOrder(response.order);
           setClick(response?.order?.status);
-          setStatus(response.order)
+          setStatus(response.order);
         }
       } catch (error) {
         console.log("error:", error);
@@ -49,29 +44,26 @@ export default function Product() {
     fetchTotoList();
   }, []);
 
-
-
   const _handleChangeStatus = (value) => {
     setClick(value);
     setStatus({ ...order, status: value });
   };
 
-  const _handleConfirm =  async (id) => {
+  const _handleConfirm = async (id) => {
     try {
       const response = await orderApi.update(id, status);
       if (response) {
         toast.success("Đã xác nhận!");
 
-         setTimeout(()=>{
+        setTimeout(() => {
           // window.location.reload();
           history.push("/orders");
-          
-         },3000)
+        }, 3000);
       }
     } catch (error) {
       toast.error("Can not comback history bro!!! ", error);
     }
-  }
+  };
 
   return (
     <div className="order">
@@ -109,17 +101,23 @@ export default function Product() {
           <label className="order__form__detail__label" htmlFor="">
             Delivery Money
           </label>
-          <p className="order__form__detail__info">{ numberWithCommas(order?.deliveryMoney)} $</p>
+          <p className="order__form__detail__info">
+            {numberWithCommas(order?.deliveryMoney)} $
+          </p>
 
           <label className="order__form__detail__label" htmlFor="">
             Order Money
           </label>
-          <p className="order__form__detail__info">{numberWithCommas( order?.orderMoney)} $</p>
+          <p className="order__form__detail__info">
+            {numberWithCommas(order?.orderMoney)} $
+          </p>
 
           <label htmlFor="" className="order__form__detail__label">
             Total Money
           </label>
-          <p className="order__form__detail__total-money">{numberWithCommas( order?.totalMoney)} $</p>
+          <p className="order__form__detail__total-money">
+            {numberWithCommas(order?.totalMoney)} $
+          </p>
         </div>
         <div className="order__form__product">
           <p className="order__form__product__title">Danh sách sản phẩm</p>
@@ -137,10 +135,10 @@ export default function Product() {
                 Size: {item?.size}
               </div>
               <div className="order__form__product__item__quantity">
-               - Quantity: {item?.quantity}
+                - Quantity: {item?.quantity}
               </div>
               <div className="order__form__product__item__price">
-               -    Price: {item?.product?.price}
+                - Price: {item?.product?.price}
               </div>
             </div>
           ))}
@@ -185,15 +183,16 @@ export default function Product() {
         </div>
       </div>
       <div className="button-container">
-          <Link to="/orders">
-            <button className="button-container__cancel">
-              Cancel
-            </button>
-          </Link>
-          <button onClick={() => _handleConfirm(order?._id)} className="button-container__confirm">
-            Confirm
-          </button>
-        </div>
+        <Link to="/orders">
+          <button className="button-container__cancel">Cancel</button>
+        </Link>
+        <button
+          onClick={() => _handleConfirm(order?._id)}
+          className="button-container__confirm"
+        >
+          Confirm
+        </button>
+      </div>
     </div>
   );
 }

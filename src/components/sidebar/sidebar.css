@@ -1,8 +1,9 @@
 .sidebar {
-    flex: 1;
+
     height: calc(100vh - 50px);
-    background-color: rgb(251, 251, 255);
+    background-color: rgb(241, 241, 245);
     position: sticky;
+    width: 300px;
     top: 50px;
   }
   
@@ -17,8 +18,10 @@
   }
   
   .sidebarTitle {
-    font-size: 13px;
-    color: rgb(187, 186, 186);
+    font-size: 17px;
+    color: rgb(16, 87, 31);
+    font-size: 24px;
+
   }
   
   .sidebarList {
@@ -32,6 +35,7 @@
     display: flex;
     align-items: center;
     border-radius: 10px;
+    margin-bottom: 20px;
   }
   
   .sidebarListItem.active,

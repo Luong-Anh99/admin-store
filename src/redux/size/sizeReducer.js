@@ -1,5 +1,5 @@
 
-import {SET_SIZE, ADD_SIZE, UPDATE_SIZE, DELETE_SIZE} from './sizeAction'
+import {SET_SIZE, ADD_SIZE, DELETE_SIZE} from './sizeAction'
 
 const INIT_STATE ={
     sizes: []

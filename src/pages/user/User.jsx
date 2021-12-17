@@ -1,21 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./user.css";
-
-//redux
-import { useDispatch } from "react-redux";
 
 //api
 import userApi from "../../api/userApi";
-import { addUser } from "../../redux/user/userAction";
 
 //router
-import {
-  useParams,
-  useLocation,
-  useHistory,
-  useRouteMatch,
-  Link,
-} from "react-router-dom";
+import { useParams, useHistory, Link } from "react-router-dom";
 import { useFormik } from "formik";
 
 //notification
@@ -29,7 +19,7 @@ export default function User() {
       name: "",
       email: "",
       phone: "",
-     // password: "",
+      // password: "",
     },
     onSubmit: (values) => {
       console.log("this value", values);
@@ -46,7 +36,7 @@ export default function User() {
 
   const handleSubmit = async (values) => {
     try {
-      const response = await userApi.update(idUer ,values);
+      const response = await userApi.update(idUer, values);
       if (response) {
         toast.success("Update User success!");
 
@@ -66,10 +56,10 @@ export default function User() {
       try {
         const response = await userApi.get(idUer);
         if (response) {
-          let user = response.user
-          formik.setFieldValue("name", user?.name )
-          formik.setFieldValue("email", user?.email )
-          formik.setFieldValue("phone", user?.phone )
+          let user = response.user;
+          formik.setFieldValue("name", user?.name);
+          formik.setFieldValue("email", user?.email);
+          formik.setFieldValue("phone", user?.phone);
           //formik.setFieldValue("password", user?.password )
         }
       } catch (error) {
@@ -78,9 +68,9 @@ export default function User() {
     };
 
     fetchTotoList();
-  }, []);
+  },[]);
 
- // console.log("formik", formik.values)
+  // console.log("formik", formik.values)
   return (
     <div className="newUser">
       <ToastContainer autoClose={5000} />

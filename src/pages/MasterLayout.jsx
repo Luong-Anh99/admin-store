@@ -1,9 +1,4 @@
-import React, { useEffect, useState } from "react";
-
-// import { useSelector, useDispatch } from "react-redux";
-// import { setUser } from "./redux/user/userAction";
-
-// import Sidebar from "../Sidebarcomponents/sidebar/Sidebar";
+import React from "react";
 
 import Sidebar from "../components/sidebar/Sidebar";
 import Topbar from "../components/topbar/Topbar";
@@ -28,11 +23,8 @@ import Category from "./category/Category";
 import SizeList from "./size-list/SizeList";
 import NewSize from "./new-size/NewSize";
 import Size from "./size/Size";
-import Cookies from "js-cookie";
 
 function MasterLayout() {
-
-
   return (
     <Router>
       <div>

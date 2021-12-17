@@ -1,28 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import "./newSize.css";
 
 //redux
-import { useDispatch } from "react-redux";
-
-//api
-import userApi from "../../api/userApi";
-import { addUser } from "../../redux/user/userAction";
 
 //router
-import {
-  useParams,
-  useLocation,
-  useHistory,
-  useRouteMatch,
-  Link,
-} from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { useFormik } from "formik";
 
 //notification
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import categoryApi from "../../api/categoryApi";
 import sizeApi from "../../api/sizeApi";
 
 export default function NewSize() {
@@ -82,7 +70,7 @@ export default function NewSize() {
             <button className="cancelButton">Cancel</button>
           </Link>
           <button className="newUserButton" type="submit">
-            Create 
+            Create
           </button>
         </div>
       </form>

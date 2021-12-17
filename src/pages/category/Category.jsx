@@ -1,21 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./category.css";
 
-//redux
-import { useDispatch } from "react-redux";
-
-//api
-import userApi from "../../api/userApi";
-import { addUser } from "../../redux/user/userAction";
-
 //router
-import {
-  useParams,
-  useLocation,
-  useHistory,
-  useRouteMatch,
-  Link,
-} from "react-router-dom";
+import { useParams, useHistory, Link } from "react-router-dom";
 import { useFormik } from "formik";
 
 //notification
@@ -44,7 +31,7 @@ export default function Category() {
 
   const handleSubmit = async (values) => {
     try {
-      const response = await categoryApi.update(idCate ,values);
+      const response = await categoryApi.update(idCate, values);
       if (response) {
         toast.success("Update User success!");
 
@@ -64,8 +51,8 @@ export default function Category() {
       try {
         const response = await categoryApi.get(idCate);
         if (response) {
-          let category = response.category
-          formik.setFieldValue("name", category?.name )
+          let category = response.category;
+          formik.setFieldValue("name", category?.name);
         }
       } catch (error) {
         console.log("error:", error);
@@ -75,7 +62,7 @@ export default function Category() {
     fetchTotoList();
   }, []);
 
- // console.log("formik", formik.values)
+  // console.log("formik", formik.values)
   return (
     <div className="newUser">
       <ToastContainer autoClose={5000} />
@@ -96,8 +83,6 @@ export default function Category() {
             value={formik.values.name}
           />
         </div>
-        
-        
 
         <div className="btnBox">
           <Link className="cancel" to="/categories">

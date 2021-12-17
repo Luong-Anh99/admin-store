@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
 
 import "./order-list.css";
 
-import { userRows } from "../../dummyData";
-
-import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 import todoApi from "../../api/todoApi";
 
 import { useDispatch } from "react-redux";
-import { setUser, deleteUser } from "../../redux/user/userAction";
+import { deleteUser } from "../../redux/user/userAction";
 
 import { Table, Tag, Space } from "antd";
-import moment from "moment";
+
 import orderApi from "../../api/orderApi";
 import { setOrder } from "../../redux/order/orderAction";
 import numberWithCommas from "../../utils/numberWithCommas";
@@ -27,13 +23,18 @@ export default function OrderList() {
 
   const [showStatus, setShowStatus] = useState(1);
 
+  const [loading, setLoading] = useState(true);
+
   const listOrders = useSelector((state) => state.orders.orders);
 
   useEffect(() => {
     const fetchTotoList = async () => {
       try {
         const response = await orderApi.getAll();
-        if (response) dispatch(setOrder(response.orders));
+        if (response) {
+          dispatch(setOrder(response.orders));
+          setLoading(false);
+        }
       } catch (error) {
         console.log("error:", error);
       }
@@ -42,18 +43,18 @@ export default function OrderList() {
     fetchTotoList();
   }, []);
 
-  useEffect(() => {
-    const fetchTotoList = async () => {
-      try {
-        const response = await orderApi.getAll();
-        if (response) dispatch(setOrder(response.orders));
-      } catch (error) {
-        console.log("error:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchTotoList = async () => {
+  //     try {
+  //       const response = await orderApi.getAll();
+  //       if (response) dispatch(setOrder(response.orders));
+  //     } catch (error) {
+  //       console.log("error:", error);
+  //     }
+  //   };
 
-    fetchTotoList();
-  }, []);
+  //   fetchTotoList();
+  // }, []);
 
   const columns = [
     {
@@ -99,7 +100,7 @@ export default function OrderList() {
             <button className="userListEdit">Edit</button>
           </Link>
           <DeleteOutline
-            style={{display:"none"}}
+            style={{ display: "none" }}
             className="userListDelete"
             onClick={() => handleDelete(params._id)}
           />
@@ -152,34 +153,37 @@ export default function OrderList() {
 
       {showStatus === 1 && (
         <Table
+          loading={loading}
           columns={columns}
           pagination={{ pageSize: 5 }}
-          dataSource={listOrders.filter(e=> e.status === "pending")}
+          dataSource={listOrders.filter((e) => e.status === "pending")}
         />
       )}
 
-
       {showStatus === 2 && (
         <Table
+          loading={loading}
           columns={columns}
           pagination={{ pageSize: 5 }}
-          dataSource={listOrders.filter(e=> e.status === "shipping")}
+          dataSource={listOrders.filter((e) => e.status === "shipping")}
         />
       )}
 
       {showStatus === 3 && (
         <Table
+          loading={loading}
           columns={columns}
           pagination={{ pageSize: 5 }}
-          dataSource={listOrders.filter(e=> e.status === "succeeded")}
+          dataSource={listOrders.filter((e) => e.status === "succeeded")}
         />
       )}
 
       {showStatus === 4 && (
         <Table
+          loading={loading}
           columns={columns}
           pagination={{ pageSize: 5 }}
-          dataSource={listOrders.filter(e=> e.status === "failed")}
+          dataSource={listOrders.filter((e) => e.status === "failed")}
         />
       )}
     </div>

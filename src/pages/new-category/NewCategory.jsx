@@ -1,21 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import "./newCategory.css";
 
-//redux
-import { useDispatch } from "react-redux";
-
-//api
-import userApi from "../../api/userApi";
-import { addUser } from "../../redux/user/userAction";
-
 //router
-import {
-  useParams,
-  useLocation,
-  useHistory,
-  useRouteMatch,
-  Link,
-} from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { useFormik } from "formik";
 
 //notification
@@ -81,7 +68,7 @@ export default function NewCategory() {
             <button className="cancelButton">Cancel</button>
           </Link>
           <button className="newUserButton" type="submit">
-            Create 
+            Create
           </button>
         </div>
       </form>

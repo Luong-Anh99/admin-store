@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
 
 import "./userList.css";
 
-import { userRows } from "../../dummyData";
-
-import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
@@ -15,20 +11,24 @@ import userApi from "../../api/userApi";
 
 import { setUser, deleteUser } from "../../redux/user/userAction";
 
-import { Table, Tag, Space } from "antd";
+import { Table, Space } from "antd";
 
 export default function UserList() {
   const dispatch = useDispatch();
 
   const listUser = useSelector((state) => state.users.users);
 
+  const [loading, setLoading] = useState(true);
   //dispatch(setUser(response.users))
 
   useEffect(() => {
     const fetchTotoList = async () => {
       try {
         const response = await userApi.getAll();
-        if (response) dispatch(setUser(response.users));
+        if (response) {
+          dispatch(setUser(response.users));
+          setLoading(false);
+        }
       } catch (error) {
         console.log("error:", error);
       }
@@ -107,6 +107,7 @@ export default function UserList() {
         </Link>
       </div>
       <Table
+        loading={loading}
         columns={columns}
         pagination={{ pageSize: 5 }}
         dataSource={listUser}

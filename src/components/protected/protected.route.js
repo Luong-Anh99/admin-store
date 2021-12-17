@@ -1,20 +1,15 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import auth from "../authentication/authentication";
-import Cookies from 'js-cookie'
+import Cookies from "js-cookie";
 
-export const ProtectedRoute = ({
-  component: Component,
-  ...rest
-}) => {
+export const ProtectedRoute = ({ component: Component, ...rest }) => {
+  // console.log("ec", Cookies.get('token')) // => 'value')
 
- // console.log("ec", Cookies.get('token')) // => 'value')
-
-  const auth = Cookies.get('auth')
+  const auth = Cookies.get("auth");
   return (
     <Route
       {...rest}
-      render={props => {
+      render={(props) => {
         if (auth) {
           return <Component {...props} />;
         } else {
@@ -23,8 +18,8 @@ export const ProtectedRoute = ({
               to={{
                 pathname: "/login",
                 state: {
-                  from: props.location
-                }
+                  from: props.location,
+                },
               }}
             />
           );

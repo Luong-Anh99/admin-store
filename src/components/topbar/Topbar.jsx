@@ -3,9 +3,8 @@ import "./topbar.css";
 import { NotificationsNone, Settings, Language } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { Menu, Dropdown, Avatar } from "antd";
-import { DownOutlined, UserOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 
-import auth from "../authentication/authentication";
 import Cookies from "js-cookie";
 import userApi from "../../api/userApi";
 
@@ -15,8 +14,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 
 import jwtDecode from "jwt-decode";
-import axios from "axios";
-import { useGridApiEventHandler } from "@material-ui/data-grid";
 
 export default function Topbar(props) {
   const auth = Cookies.get("auth");
@@ -36,8 +33,8 @@ export default function Topbar(props) {
     try {
       const response = await userApi.logout();
       if (response) {
-        console.log("123")
-        toast.success("Logout success");      
+        console.log("123");
+        toast.success("Logout success");
         window.location.reload();
         Cookies.remove("auth");
       }
@@ -74,7 +71,7 @@ export default function Topbar(props) {
       <div className="topbarWrapper">
         <div className="topLeft">
           <Link to="/" className="link">
-            <span className="logo">LA admin</span>
+            <span className="logo">Admin store</span>
           </Link>
         </div>
         <div className="topRight">
