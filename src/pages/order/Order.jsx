@@ -61,7 +61,7 @@ export default function Product() {
         }, 3000);
       }
     } catch (error) {
-      toast.error("Can not comback history bro!!! ", error);
+      toast.error("Can't not update status like that!!! ", error);
     }
   };
 
