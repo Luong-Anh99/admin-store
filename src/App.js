@@ -2,7 +2,7 @@ import React from "react";
 
 
 import { BrowserRouter , Switch, Route } from "react-router-dom";
-import "./app.css";
+import "./App.css";
 import Login from "./pages/login/Login";
 import MasterLayout from "./pages/MasterLayout";
 import { ProtectedRoute } from "./components/protected/protected.route";
