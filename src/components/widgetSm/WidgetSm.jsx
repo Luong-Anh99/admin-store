@@ -6,16 +6,14 @@ import { Table, Tag, Space } from "antd";
 import numberWithCommas from "../../utils/numberWithCommas";
 import { Link } from "react-router-dom";
 
-export default function WidgetSm() {
-  const [productRecent, setProductRecent] = useState();
+export default function WidgetSm(props) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchTotoList = async () => {
+    const fetchTotoList =  () => {
       try {
-        const res = await chartApi.getAll();
-        if (res) {
-          setProductRecent(res?.mostRecent5Products);
+       
+        if (props?.info) {
 
           setLoading(false);
         }
@@ -25,7 +23,7 @@ export default function WidgetSm() {
     };
 
     fetchTotoList();
-  }, []);
+  }, [props]);
 
   const columns = [
     {
@@ -63,7 +61,7 @@ export default function WidgetSm() {
     <div className="widgetSm">
       <span className="widgetSmTitle">New Product Recent</span>
       <div className="dataProductRecent">
-        <Table loading={loading} columns={columns} dataSource={productRecent} />
+        <Table loading={loading} columns={columns} dataSource={props?.info?.mostRecent5Products} />
       </div>
     </div>
   );

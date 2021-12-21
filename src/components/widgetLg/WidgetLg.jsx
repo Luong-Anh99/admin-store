@@ -6,8 +6,7 @@ import numberWithCommas from "../../utils/numberWithCommas";
 import { Visibility } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
-export default function WidgetLg() {
-  const [recentOrder, setRecentOrder] = useState();
+export default function WidgetLg(props) {
   const [loading, setLoading] = useState(true);
 
   const _statusButton = ({ type }) => {
@@ -15,12 +14,9 @@ export default function WidgetLg() {
   };
 
   useEffect(() => {
-    const fetchTotoList = async () => {
+    const fetchTotoList = () => {
       try {
-        const res = await chartApi.getAll();
-        if (res) {
-          setRecentOrder(res?.mostRecent10Orders);
-
+        if (props?.info) {
           setLoading(false);
         }
       } catch (error) {
@@ -29,7 +25,7 @@ export default function WidgetLg() {
     };
 
     fetchTotoList();
-  }, []);
+  }, [props]);
 
   const columns = [
     {
@@ -82,7 +78,11 @@ export default function WidgetLg() {
     <div className="widgetLg">
       <h3 className="widgetLgTitle">Order recent</h3>
       <div className="dataOrderRecent">
-        <Table loading={loading} columns={columns} dataSource={recentOrder} />
+        <Table
+          loading={loading}
+          columns={columns}
+          dataSource={props?.info?.mostRecent10Orders}
+        />
       </div>
     </div>
   );

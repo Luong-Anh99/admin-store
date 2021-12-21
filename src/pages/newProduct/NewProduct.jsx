@@ -341,11 +341,7 @@ export default function NewProduct() {
                 />
                 <label
                   style={{
-                    color: `${
-                      item.colorValue.toLowerCase() === "white"
-                        ? "yellow"
-                        : item.colorValue.toLowerCase()
-                    }`,
+                    color: `black`,
                   }}
                   for={item._id}
                 >

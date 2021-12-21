@@ -1,0 +1,29 @@
+.userList{
+    flex: 4;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+
+.buttonBox {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.userAddButton {
+    width: 100px;
+    height: 50px;
+    background-color: rgb(8, 116, 80);
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: white;
+    font-weight: 600;
+}
+
+.userTitle {
+    font-weight: bold;
+    font-size: 24px;
+    color: rgb(43, 136, 105);
+}

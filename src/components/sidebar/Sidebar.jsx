@@ -8,6 +8,7 @@ import {
   SportsEsports,
   DynamicFeed,
   BusinessCenter,
+  LocalMall
 } from "@material-ui/icons";
 
 //router
@@ -96,6 +97,17 @@ export default function Sidebar() {
               >
                 <BusinessCenter className="sidebarIcon" />
                 Size
+              </li>
+            </Link>
+            <Link to="/colors" className="link">
+              <li
+                className={`sidebarListItem ${
+                  active === "/colors" ? "active" : ""
+                } `}
+                onClick={() => setActive("/colors")}
+              >
+                <LocalMall className="sidebarIcon" />
+                Color
               </li>
             </Link>
           </ul>

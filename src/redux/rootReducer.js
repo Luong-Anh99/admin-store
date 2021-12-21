@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import categoryReducer from "./category/categoryReducer";
+import colorReducer from "./color/colorReducer";
 import orderReducer from "./order/orderReducer";
 import productReducer from "./product/productReducer";
 import sizeReducer from "./size/sizeReducer";
@@ -10,5 +11,6 @@ export default combineReducers ({
     products: productReducer,
     orders:orderReducer,
     categories: categoryReducer,
-    sizes:sizeReducer
+    sizes:sizeReducer,
+    colors:colorReducer
 })

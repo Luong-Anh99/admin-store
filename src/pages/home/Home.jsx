@@ -9,16 +9,16 @@ import chartApi from "../../api/chartAPI";
 import { Spin } from "antd";
 
 export default function Home() {
-  const [chart, setChart] = useState();
   const [loading, setLoading] = useState(true);
+  const [info, setInfo] = useState()
+
 
   useEffect(() => {
     const fetchTotoList = async () => {
       try {
         const res = await chartApi.getAll();
         if (res) {
-          console.log("data chart", res?.orderChart);
-          setChart(res?.orderChart);
+          setInfo(res);
           setLoading(false);
         }
       } catch (error) {
@@ -31,14 +31,14 @@ export default function Home() {
 
   return (
     <div className="home">
-      <FeaturedInfo />
+      <FeaturedInfo info={info} />
       {loading === true ? (
         <div className="spin">
           <Spin size="large" />
         </div>
       ) : (
         <Chart
-          data={chart}
+          data={info?.orderChart}
           title="Order Analytics"
           grid
           dataKey="orderNumber"
@@ -46,8 +46,8 @@ export default function Home() {
       )}
 
       <div className="homeWidgets">
-        <WidgetSm />
-        <WidgetLg />
+        <WidgetSm info={info} />
+        <WidgetLg info={info} />
       </div>
     </div>
   );

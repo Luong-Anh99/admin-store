@@ -478,7 +478,7 @@ export default function Product() {
                     style={{
                       color: `${
                         item.colorValue.toLowerCase() === "white"
-                          ? "yellow"
+                          ? "white"
                           : item.colorValue.toLowerCase()
                       }`,
                     }}

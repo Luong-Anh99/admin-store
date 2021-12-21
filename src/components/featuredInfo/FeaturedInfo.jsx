@@ -3,20 +3,15 @@ import "./featuredInfo.css";
 import chartApi from "../../api/chartAPI";
 import { Spin } from "antd";
 
-export default function FeaturedInfo() {
-  const [totalOrder, setTotalOrder] = useState();
-  const [totalProduct, setTotalProduct] = useState();
-  const [totalUser, setTotalUser] = useState();
+export default function FeaturedInfo(props) {
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchTotoList = async () => {
+    const fetchTotoList = () => {
       try {
-        const res = await chartApi.getAll();
-        if (res) {
-          setTotalOrder(res?.numOfOrders);
-          setTotalProduct(res?.numofProducts);
-          setTotalUser(res?.numOfUsers);
+        console.log(props?.info)
+        if (props?.info) {
           setLoading(false);
         }
       } catch (error) {
@@ -25,26 +20,28 @@ export default function FeaturedInfo() {
     };
 
     fetchTotoList();
-  }, []);
+  }, [props]);
+
+  console.log("props info", props)
 
   return (
     <div className="featured">
       <div className="featuredItem itemOrder">
-        <span className="featuredTitle">Invoice total order up to present</span>
+        <span className="featuredTitle">Total order up to present</span>
         <div className="featuredMoneyContainer">
           {loading === true ? (
             <div className="spinNumber">
               <Spin size="large" />
             </div>
           ) : (
-            <span className="featuredMoney">{totalOrder}</span>
+            <span className="featuredMoney">{props?.info?.numOfOrders}</span>
           )}
         </div>
         <span className="featuredSub">Order</span>
       </div>
       <div className="featuredItem itemProduct">
         <span className="featuredTitle">
-          Invoice total product up to present{" "}
+           Total product up to present{" "}
         </span>
         <div className="featuredMoneyContainer">
           {loading === true ? (
@@ -52,7 +49,7 @@ export default function FeaturedInfo() {
               <Spin size="large" />
             </div>
           ) : (
-            <span className="featuredMoney">{totalProduct}</span>
+            <span className="featuredMoney">{props?.info?.numofProducts}</span>
           )}
 
           {/* <span className="featuredMoneyRate">
@@ -63,7 +60,7 @@ export default function FeaturedInfo() {
       </div>
       <div className="featuredItem itemUser">
         <span className="featuredTitle">
-          Invoice total employee up to present{" "}
+           Total employee up to present{" "}
         </span>
         <div className="featuredMoneyContainer">
           {loading === true ? (
@@ -71,7 +68,7 @@ export default function FeaturedInfo() {
               <Spin size="large" />
             </div>
           ) : (
-            <span className="featuredMoney">{totalUser}</span>
+            <span className="featuredMoney">{props?.info?.numOfUsers}</span>
           )}
 
           <span className="featuredMoneyRate"></span>

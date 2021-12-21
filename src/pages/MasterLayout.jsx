@@ -23,6 +23,9 @@ import Category from "./category/Category";
 import SizeList from "./size-list/SizeList";
 import NewSize from "./new-size/NewSize";
 import Size from "./size/Size";
+import ColorList from "./color-list/ColorList";
+import NewColor from "./new-color/NewColor";
+import Color from "./color/Color";
 
 function MasterLayout() {
   return (
@@ -83,6 +86,19 @@ function MasterLayout() {
 
             <Route path="/sizes">
               <SizeList />
+            </Route>
+
+            <Route path="/colors">
+              <ColorList />
+            </Route>
+
+            <Route path="/newColor">
+              <NewColor />
+            </Route>
+
+
+            <Route path="/color/:colorId">
+              <Color />
             </Route>
           </Switch>
         </div>
