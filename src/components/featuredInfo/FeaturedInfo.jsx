@@ -60,7 +60,7 @@ export default function FeaturedInfo(props) {
       </div>
       <div className="featuredItem itemUser">
         <span className="featuredTitle">
-           Total employee up to present{" "}
+           Total admin up to present{" "}
         </span>
         <div className="featuredMoneyContainer">
           {loading === true ? (
@@ -73,7 +73,7 @@ export default function FeaturedInfo(props) {
 
           <span className="featuredMoneyRate"></span>
         </div>
-        <span className="featuredSub">Employee</span>
+        <span className="featuredSub">Admin</span>
       </div>
     </div>
   );

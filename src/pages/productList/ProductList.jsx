@@ -20,11 +20,21 @@ import numberWithCommas from "../../utils/numberWithCommas";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+import NotificationDelete from "../../components/notfication-delete/NotificationDelete";
 
 export default function ProductList() {
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(true);
+
+  const [idDelete, setIdDelete] = useState("");
+
+  const [showModal, setShowModal] = useState(false);
+
+  const _openModalDelete = (id) => {
+    setIdDelete(id);
+    setShowModal(!showModal);
+  };
 
   useEffect(() => {
     const fetchTotoList = async () => {
@@ -47,9 +57,12 @@ export default function ProductList() {
   const handleDelete = async (id) => {
     console.log("id", id);
     try {
-      dispatch(deleteProduct(id));
-      toast.warn("Delete Success");
-      await productApi.delete(id);
+      const res = await productApi.delete(id);
+
+      if (res) {
+        dispatch(deleteProduct(id));
+        toast.warn("Delete Success");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -99,7 +112,7 @@ export default function ProductList() {
           </Link>
           <DeleteOutline
             className="userListDelete"
-            onClick={() => handleDelete(params._id)}
+            onClick={() => _openModalDelete(params._id)}
           />
         </Space>
       ),
@@ -130,6 +143,13 @@ export default function ProductList() {
         columns={columns}
         pagination={{ pageSize: 5 }}
         dataSource={listProduct.filter((x) => x.isRemoved === false)}
+      />
+
+      <NotificationDelete
+        showModal={showModal}
+        setShowModal={setShowModal}
+        handleDelete={handleDelete}
+        idDelete={idDelete}
       />
     </div>
   );

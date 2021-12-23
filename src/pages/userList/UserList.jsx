@@ -12,6 +12,11 @@ import userApi from "../../api/userApi";
 import { setUser, deleteUser } from "../../redux/user/userAction";
 
 import { Table, Space } from "antd";
+import NotificationDelete from "../../components/notfication-delete/NotificationDelete";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 export default function UserList() {
   const dispatch = useDispatch();
@@ -19,7 +24,10 @@ export default function UserList() {
   const listUser = useSelector((state) => state.users.users);
 
   const [loading, setLoading] = useState(true);
-  //dispatch(setUser(response.users))
+
+  const [idDelete, setIdDelete] = useState("");
+
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchTotoList = async () => {
@@ -36,11 +44,19 @@ export default function UserList() {
     fetchTotoList();
   }, []);
 
+  const _openModalDelete = (id) => {
+    setIdDelete(id);
+    setShowModal(!showModal);
+  };
+
   const handleDelete = async (id) => {
     console.log("id", id);
     try {
-      dispatch(deleteUser(id));
-      await userApi.delete(id);
+      const res = await userApi.delete(id);
+      if (res) {
+        dispatch(deleteUser(id));
+        toast.warn("Delete Success");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -89,7 +105,7 @@ export default function UserList() {
           </Link>
           <DeleteOutline
             className="userListDelete"
-            onClick={() => handleDelete(params._id)}
+            onClick={() => _openModalDelete(params._id)}
           />
         </Space>
       ),
@@ -98,8 +114,9 @@ export default function UserList() {
 
   return (
     <div className="userList">
+      <ToastContainer autoClose={5000} />
       <div className="userTitleContainer">
-        <h1 className="userTitle">List Employee</h1>
+        <h1 className="userTitle">List Admin</h1>
         <Link to="/newUser">
           <div className="buttonBox">
             <button className="userAddButton">Create</button>
@@ -111,6 +128,13 @@ export default function UserList() {
         columns={columns}
         pagination={{ pageSize: 5 }}
         dataSource={listUser}
+      />
+
+      <NotificationDelete
+        showModal={showModal}
+        setShowModal={setShowModal}
+        handleDelete={handleDelete}
+        idDelete={idDelete}
       />
     </div>
   );

@@ -74,7 +74,7 @@ export default function User() {
   return (
     <div className="newUser">
       <ToastContainer autoClose={5000} />
-      <h1 className="newUserTitle">Edit Employee</h1>
+      <h1 className="newUserTitle">Edit Admin</h1>
       <form
         onSubmit={formik.handleSubmit}
         action="submit"

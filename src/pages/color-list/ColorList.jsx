@@ -12,6 +12,11 @@ import { Table, Space } from "antd";
 import colorApi from "../../api/colorApi";
 import { deleteColor, setColor } from "../../redux/color/colorAction";
 import moment from "moment";
+import NotificationDelete from "../../components/notfication-delete/NotificationDelete";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 export default function ColorList() {
   const dispatch = useDispatch();
@@ -19,6 +24,15 @@ export default function ColorList() {
   const listColor = useSelector((state) => state.colors.colors);
 
   const [loading, setLoading] = useState(true);
+
+  const [showModal, setShowModal] = useState(false);
+
+  const [idDelete, setIdDelete] = useState("");
+
+  const _openModalDelete = (id) => {
+    setIdDelete(id);
+    setShowModal(!showModal);
+  };
 
   //dispatch(setUser(response.users))
 
@@ -40,9 +54,37 @@ export default function ColorList() {
   const handleDelete = async (id) => {
     console.log("id", id);
     try {
-      dispatch(deleteColor(id));
-      await colorApi.delete(id);
+      const res = await colorApi.delete(id);
+
+      if (res) {
+        dispatch(deleteColor(id));
+        toast.warn("Delete Success");
+      }
     } catch (error) {
+      // Error 😨
+      if (error.response) {
+        /*
+         * The request was made and the server responded with a
+         * status code that falls out of the range of 2xx
+         */
+        console.log(error.response.data);
+        console.log(error.response.status);
+
+        if(error.response.status == 409) {
+          toast.error("Can't not delete because there are products of this type  ")
+        }
+        console.log(error.response.headers);
+      } else if (error.request) {
+        /*
+         * The request was made but no response was received, `error.request`
+         * is an instance of XMLHttpRequest in the browser and an instance
+         * of http.ClientRequest in Node.js
+         */
+        console.log(error.request);
+      } else {
+        // Something happened in setting up the request and triggered an Error
+        console.log("Error", error.message);
+      }
       console.log(error);
     }
   };
@@ -76,7 +118,7 @@ export default function ColorList() {
           </Link>
           <DeleteOutline
             className="userListDelete"
-            onClick={() => handleDelete(params._id)}
+            onClick={() => _openModalDelete(params._id)}
           />
         </Space>
       ),
@@ -85,6 +127,7 @@ export default function ColorList() {
 
   return (
     <div className="userList">
+      <ToastContainer autoClose={5000} />
       <div className="userTitleContainer">
         <h1 className="userTitle">List Color Current</h1>
         <Link to="/newColor">
@@ -98,6 +141,12 @@ export default function ColorList() {
         columns={columns}
         pagination={{ pageSize: 5 }}
         dataSource={listColor}
+      />
+      <NotificationDelete
+        showModal={showModal}
+        setShowModal={setShowModal}
+        handleDelete={handleDelete}
+        idDelete={idDelete}
       />
     </div>
   );

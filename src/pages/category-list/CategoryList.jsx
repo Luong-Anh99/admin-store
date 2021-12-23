@@ -13,11 +13,21 @@ import { Link } from "react-router-dom";
 
 import categoryApi from "../../api/categoryApi";
 
-import { setCategory, deleteCategory } from "../../redux/category/categoryAction";
+import {
+  setCategory,
+  deleteCategory,
+} from "../../redux/category/categoryAction";
 
 import { Table, Tag, Space } from "antd";
 import moment from "moment";
 import categoriesApi from "../../api/categoryApi";
+
+import NotificationDelete from "../../components/notfication-delete/NotificationDelete";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
 
 export default function CategoryList() {
   const dispatch = useDispatch();
@@ -28,30 +38,67 @@ export default function CategoryList() {
 
   const [loading, setLoading] = useState(true);
 
+  const [idDelete, setIdDelete] = useState("");
+
+  const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
     const fetchTotoList = async () => {
       try {
         const response = await categoryApi.getAll();
-        if (response) {dispatch(setCategory(response.categories))
-        setLoading(false)}
+        if (response) {
+          dispatch(setCategory(response.categories));
+          setLoading(false);
+        }
       } catch (error) {
-        console.log("error:", error);
+        console.log("errore", error);
       }
     };
     fetchTotoList();
   }, []);
 
+  const _openModalDelete = (id) => {
+    setIdDelete(id);
+    setShowModal(!showModal);
+  };
+
   const handleDelete = async (id) => {
+    setShowModal(!showModal);
     console.log("id", id);
     try {
-      dispatch(deleteCategory(id));
-      await categoryApi.delete(id);
+      const res = await categoryApi.delete(id);
+      if (res) {
+        dispatch(deleteCategory(id));
+        toast.warn("Delete Success");
+      }
     } catch (error) {
+      // Error 😨
+      if (error.response) {
+        /*
+         * The request was made and the server responded with a
+         * status code that falls out of the range of 2xx
+         */
+        console.log(error.response.data);
+        console.log(error.response.status);
+
+        if(error.response.status == 409) {
+          toast.error("Can't not delete because there are products of this type  ")
+        }
+        console.log(error.response.headers);
+      } else if (error.request) {
+        /*
+         * The request was made but no response was received, `error.request`
+         * is an instance of XMLHttpRequest in the browser and an instance
+         * of http.ClientRequest in Node.js
+         */
+        console.log(error.request);
+      } else {
+        // Something happened in setting up the request and triggered an Error
+        console.log("Error", error.message);
+      }
       console.log(error);
     }
   };
-
-  
 
   const columns = [
     {
@@ -77,14 +124,18 @@ export default function CategoryList() {
       title: "Day Create",
       dataIndex: "createdAt",
       key: "createdAt",
-      render: (text) =>  <div>{moment(text).format("DD-MM-YYYY").toString()}</div>,
+      render: (text) => (
+        <div>{moment(text).format("DD-MM-YYYY").toString()}</div>
+      ),
     },
 
     {
       title: "Last update",
       dataIndex: "updatedAt",
       key: "updatedAt",
-      render: (text) =>  <div>{moment(text).format("DD-MM-YYYY").toString()}</div>,
+      render: (text) => (
+        <div>{moment(text).format("DD-MM-YYYY").toString()}</div>
+      ),
     },
 
     {
@@ -97,7 +148,7 @@ export default function CategoryList() {
           </Link>
           <DeleteOutline
             className="userListDelete"
-            onClick={() => handleDelete(params._id)}
+            onClick={() => _openModalDelete(params._id)}
           />
         </Space>
       ),
@@ -106,6 +157,7 @@ export default function CategoryList() {
 
   return (
     <div className="userList">
+      <ToastContainer autoClose={5000} />
       <div className="userTitleContainer">
         <h1 className="userTitle">List Category</h1>
         <Link to="/newCategory">
@@ -115,10 +167,17 @@ export default function CategoryList() {
         </Link>
       </div>
       <Table
-      loading={loading}
+        loading={loading}
         columns={columns}
         pagination={{ pageSize: 5 }}
         dataSource={listCategory}
+      />
+
+      <NotificationDelete
+        showModal={showModal}
+        setShowModal={setShowModal}
+        handleDelete={handleDelete}
+        idDelete={idDelete}
       />
     </div>
   );

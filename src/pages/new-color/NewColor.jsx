@@ -90,7 +90,7 @@ export default function NewColor() {
         </div> */}
 
         <div className="btnBox">
-          <Link className="cancel" to="/users">
+          <Link className="cancel" to="/colors">
             <button className="cancelButton">Cancel</button>
           </Link>
           <button className="newUserButton" type="submit">
