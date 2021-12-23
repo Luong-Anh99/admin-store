@@ -51,7 +51,7 @@ export default function Sidebar() {
                 onClick={() => setActive("/users")}
               >
                 <PersonOutline className="sidebarIcon" />
-                Users
+               Admin
               </li>
             </Link>
             <Link to="/products" className="link">
