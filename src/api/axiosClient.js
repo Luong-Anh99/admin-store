@@ -1,13 +1,14 @@
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import queryString from "querystring";
+import Cookies from "js-cookie";
 const isDevelop =
   !process.env.NODE_ENV || process.env.NODE_ENV === "development";
 
 const axiosClient = axios.create(
   isDevelop
     ? {
-        baseURL:"https://shoe-shop-demo.herokuapp.com",
+        baseURL: "https://shoe-shop-demo.herokuapp.com",
         headers: {
           "Content-Type": "application/json",
         },

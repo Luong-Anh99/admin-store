@@ -1,11 +1,9 @@
-
 import axiosClient from "./axiosClient";
 
 const userApi = {
   getAll: (params) => {
-    const url = '/admin/users';
-    return axiosClient.get(url, { withCredentials: true });
-
+    const url = "/admin/users";
+    return axiosClient.get(url);
   },
 
   get: (id) => {
@@ -13,29 +11,28 @@ const userApi = {
     return axiosClient.get(url);
   },
 
-  delete:(id) => {
+  delete: (id) => {
     const url = `/admin/user/${id}`;
     return axiosClient.delete(url);
   },
 
-  add:(user) => {
+  add: (user) => {
     const url = `/admin/user`;
-    return axiosClient.post(url,user);
+    return axiosClient.post(url, user);
   },
-  update:(id, user) => {
+  update: (id, user) => {
     const url = `/admin/user/${id}`;
     return axiosClient.put(url, user);
   },
   login(data) {
-    const url = '/login';
+    const url = "/login";
     return axiosClient.post(url, data);
-},
+  },
 
-logout(data) {
-  const url = '/logout';
-  return axiosClient.post(url);
-},
-
-}
+  logout(data) {
+    const url = "/logout";
+    return axiosClient.post(url);
+  },
+};
 
 export default userApi;
