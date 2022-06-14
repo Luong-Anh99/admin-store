@@ -26,6 +26,9 @@ import Size from "./size/Size";
 import ColorList from "./color-list/ColorList";
 import NewColor from "./new-color/NewColor";
 import Color from "./color/Color";
+import BrandList from "./brands/brand-list/BrandList";
+import NewBrand from "./brands/newBrand/NewBrand";
+import Brand from "./brands/brand/Brand";
 
 function MasterLayout() {
   return (
@@ -96,9 +99,20 @@ function MasterLayout() {
               <NewColor />
             </Route>
 
-
             <Route path="/color/:colorId">
               <Color />
+            </Route>
+
+            <Route path="/brands">
+              <BrandList />
+            </Route>
+
+            <Route path="/newBrand">
+              <NewBrand />
+            </Route>
+
+            <Route path="/brand/:brandId">
+              <Brand />
             </Route>
           </Switch>
         </div>

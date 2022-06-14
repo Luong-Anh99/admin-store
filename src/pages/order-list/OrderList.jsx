@@ -18,8 +18,6 @@ import orderApi from "../../api/orderApi";
 import { setOrder } from "../../redux/order/orderAction";
 import numberWithCommas from "../../utils/numberWithCommas";
 
-
-
 export default function OrderList() {
   const dispatch = useDispatch();
 
@@ -45,25 +43,14 @@ export default function OrderList() {
     fetchTotoList();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchTotoList = async () => {
-  //     try {
-  //       const response = await orderApi.getAll();
-  //       if (response) dispatch(setOrder(response.orders));
-  //     } catch (error) {
-  //       console.log("error:", error);
-  //     }
-  //   };
-
-  //   fetchTotoList();
-  // }, []);
+  console.log(listOrders);
 
   const columns = [
     {
       title: "Name",
-      dataIndex: "name",
-      key: "name",
-      render: (text) => <div>{text}</div>,
+      dataIndex: "user",
+      key: "user",
+      render: (text) => <div>{console.log(text)}</div>,
     },
     {
       title: "Phone",
@@ -75,6 +62,7 @@ export default function OrderList() {
       title: "Email",
       dataIndex: "email",
       key: "email",
+      render: (text) => <div>{text?.email}</div>,
     },
     {
       title: "Status",
