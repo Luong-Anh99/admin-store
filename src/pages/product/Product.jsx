@@ -369,7 +369,7 @@ export default function Product() {
 
             {!editSize &&
               formik?.values?.sizeArray?.map((item, index) => (
-                <div>
+                <div style={{ display: "flex", alignItems: "center" }}>
                   <label htmlFor="">- Size {item?.size?.sizeNumber}: </label>{" "}
                   <span>{item?.quantity}</span>
                 </div>
@@ -532,7 +532,7 @@ export default function Product() {
                 // <option key={index} value={item._id}>
                 //   {item.name}
                 // </option>
-                <div>
+                <div style={{ display: "flex", alignItems: "center" }}>
                   <input
                     style={{ marginRight: "10px" }}
                     onChange={_handleCateChange}

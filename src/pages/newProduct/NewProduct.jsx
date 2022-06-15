@@ -284,36 +284,43 @@ export default function NewProduct() {
               // <option key={index} value={item._id}>
               //   {item.sizeNumber}
               // </option>
-              <div style={{ marginBottom: "10px" }} key={index}>
-                <input
-                  onChange={(e) => _handleSizeChange(e, item._id, "size")}
-                  //  onChange={(e) => setSize(e.target.value)}
-                  value={item._id}
-                  // ={formik.values.sizeArray.length <= 0 ? true : false}
-                  type="checkbox"
-                  id={item._id}
-                  name={item._id}
-                />
-                <label style={{ marginRight: "10px" }} for={item._id}>
-                  {item.sizeNumber}
+              <div
+                style={{
+                  marginBottom: "10px",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+                key={index}
+              >
+                <div>
                   <input
-                    style={{ marginLeft: "20px" }}
-                    onChange={(e) => _handleSizeChange(e, item._id, "quantity")}
-                    //onChange={(e) => setSize([...size,{quantity:e.target.id}])}
-
-                    // {
-                    //   formik.values.sizeArray.length <= 0 ? true : false
-                    // }
+                    onChange={(e) => _handleSizeChange(e, item._id, "size")}
+                    value={item._id}
+                    type="checkbox"
                     id={item._id}
-                    value={
-                      formik?.values?.sizeArray?.find(
-                        (x) => x?.size === item?._id
-                      )?.quantity || ""
-                    }
-                    type="text"
-                    placeholder="Quantity"
+                    name={item._id}
+                    style={{ marginRight: "5px" }}
                   />
-                </label>
+                </div>
+                <div>
+                  <label for={item._id}>
+                    {item.sizeNumber}
+                    <input
+                      style={{ marginLeft: "20px" }}
+                      onChange={(e) =>
+                        _handleSizeChange(e, item._id, "quantity")
+                      }
+                      id={item._id}
+                      value={
+                        formik?.values?.sizeArray?.find(
+                          (x) => x?.size === item?._id
+                        )?.quantity || ""
+                      }
+                      type="text"
+                      placeholder="Quantity"
+                    />
+                  </label>
+                </div>
               </div>
             ))}
           </div>
@@ -330,7 +337,10 @@ export default function NewProduct() {
               //   </label>
               // </div>
 
-              <div key={index}>
+              <div
+                key={index}
+                style={{ display: "flex", alignItems: "center" }}
+              >
                 <input
                   style={{ marginRight: "10px" }}
                   onChange={_handleCheckBoxChange}
@@ -419,7 +429,6 @@ export default function NewProduct() {
               required
               style={{ display: "none" }}
               id="image02"
-              required
               type="file"
               onChange={handImage2}
             ></input>

@@ -35,10 +35,9 @@ axiosClient.interceptors.response.use(
     return response.data;
   },
   (error) => {
-    if (error.response && error.response.status === 401) {
-      // window.location.reload();
-      const history = useHistory();
-      history.push("login");
+    if (error.response && error.response.status === 403) {
+      // console.log("Ecd");
+      Cookies.remove("auth");
     }
     throw error;
   }

@@ -8,7 +8,8 @@ import {
   SportsEsports,
   DynamicFeed,
   BusinessCenter,
-  LocalMall
+  LocalMall,
+  AccessibleOutlined,
 } from "@material-ui/icons";
 
 //router
@@ -51,7 +52,7 @@ export default function Sidebar() {
                 onClick={() => setActive("/users")}
               >
                 <PersonOutline className="sidebarIcon" />
-               Admin
+                Admin
               </li>
             </Link>
             <Link to="/products" className="link">
@@ -108,6 +109,17 @@ export default function Sidebar() {
               >
                 <LocalMall className="sidebarIcon" />
                 Color
+              </li>
+            </Link>
+            <Link to="/brands" className="link">
+              <li
+                className={`sidebarListItem ${
+                  active === "/brands" ? "active" : ""
+                } `}
+                onClick={() => setActive("/brands")}
+              >
+                <AccessibleOutlined className="sidebarIcon" />
+                Brands
               </li>
             </Link>
           </ul>
