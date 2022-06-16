@@ -30,6 +30,9 @@ import BrandList from "./brands/brand-list/BrandList";
 import NewBrand from "./brands/newBrand/NewBrand";
 import Brand from "./brands/brand/Brand";
 
+import NewVoucher from "./vouchers/newVoucher/NewVoucher";
+import VoucherList from "./vouchers/voucher-list/VoucherList";
+
 function MasterLayout() {
   return (
     <Router>
@@ -113,6 +116,14 @@ function MasterLayout() {
 
             <Route path="/brand/:brandId">
               <Brand />
+            </Route>
+
+            <Route path="/vouchers">
+              <VoucherList />
+            </Route>
+
+            <Route path="/newVoucher">
+              <NewVoucher />
             </Route>
           </Switch>
         </div>

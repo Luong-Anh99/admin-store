@@ -122,6 +122,18 @@ export default function Sidebar() {
                 Brands
               </li>
             </Link>
+
+            <Link to="/vouchers" className="link">
+              <li
+                className={`sidebarListItem ${
+                  active === "/vouchers" ? "active" : ""
+                } `}
+                onClick={() => setActive("/vouchers")}
+              >
+                <AccessibleOutlined className="sidebarIcon" />
+                Vouchers
+              </li>
+            </Link>
           </ul>
         </div>
       </div>
