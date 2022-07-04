@@ -12,6 +12,7 @@ import sizeApi from "../../api/sizeApi";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+import { Input, Radio, Space } from "antd";
 
 //firebase
 import { storage } from "../../firebase";
@@ -103,13 +104,14 @@ export default function NewProduct() {
 
   const _handleCateChange = (e) => {
     let target = e.target.id;
+    console.log(e.target.value);
     // let color={_id:target}
     let newArray = [...formik.values.category, target];
     if (formik.values.category.includes(target)) {
       newArray = newArray.filter((cate) => cate !== target);
     }
 
-    formik.setFieldValue("category", newArray);
+    formik.setFieldValue("category", e.target.value);
   };
 
   const _handleSizeChange = (e, id, type) => {
@@ -364,7 +366,16 @@ export default function NewProduct() {
           <div className="new__form__design__detail">
             <label className="new__form__design__detail__title">Category</label>
 
-            {listCate?.map((item, index) => (
+            <Radio.Group onChange={(e) => _handleCateChange(e)}>
+              <Space direction="vertical">
+                {listCate?.map((item, index) => (
+                  <Radio key={index} value={item._id}>
+                    {item.name}
+                  </Radio>
+                ))}
+              </Space>
+            </Radio.Group>
+            {/* {listCate?.map((item, index) => (
               // <option key={index} value={item._id}>
               //   {item.name}
               // </option>
@@ -373,14 +384,14 @@ export default function NewProduct() {
                   style={{ marginRight: "10px" }}
                   onChange={_handleCateChange}
                   value={item._id}
-                  type="checkbox"
+                  type="radio"
                   id={item._id}
                   name={item._id}
                 />
                 <label for={item._id}>{item.name}</label>
                 <br />
               </div>
-            ))}
+            ))} */}
           </div>
         </div>
 
