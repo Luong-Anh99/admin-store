@@ -68,7 +68,7 @@ export default function User() {
     };
 
     fetchTotoList();
-  },[]);
+  }, []);
 
   // console.log("formik", formik.values)
   return (

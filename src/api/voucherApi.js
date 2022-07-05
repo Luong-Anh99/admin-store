@@ -7,21 +7,21 @@ const vouchersApi = {
   },
 
   get: (id) => {
-    const url = `/admin/brand/${id}`;
+    const url = `/admin/promotion/${id}`;
     return axiosClient.get(url);
   },
 
   delete: (id) => {
-    const url = `/admin/size/${id}`;
+    const url = `/admin/promotion/${id}`;
     return axiosClient.delete(url);
   },
 
-  add: (brand) => {
-    const url = `/admin/brand`;
-    return axiosClient.post(url, brand);
+  add: (voucher) => {
+    const url = `/admin/promotion`;
+    return axiosClient.post(url, voucher);
   },
   update: (id, user) => {
-    const url = `/admin/brand/${id}`;
+    const url = `/admin/promotion/${id}`;
     return axiosClient.put(url, user);
   },
 };

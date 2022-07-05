@@ -27,6 +27,8 @@ export default function VoucherList() {
 
   const [idDelete, setIdDelete] = useState("");
 
+  const [loadingDel, setLoadingDelete] = useState(false);
+
   const _openModalDelete = (id) => {
     setIdDelete(id);
     setShowModal(!showModal);
@@ -36,6 +38,7 @@ export default function VoucherList() {
 
   const [listBrands, setListBrands] = useState([]);
 
+  console.log(listBrands);
   useEffect(() => {
     const fetchTotoList = async () => {
       try {
@@ -54,12 +57,15 @@ export default function VoucherList() {
 
   const handleDelete = async (id) => {
     console.log("id", id);
+    setLoadingDelete(true);
     try {
-      const res = await colorApi.delete(id);
+      const res = await vouchersApi.delete(id);
 
       if (res) {
-        dispatch(deleteColor(id));
+        setListBrands((state) => state.filter((item) => item._id !== id));
         toast.warn("Delete Success");
+        setLoading(false);
+        setShowModal(false);
       }
     } catch (error) {
       // Error 😨
@@ -90,6 +96,7 @@ export default function VoucherList() {
       }
       console.log(error);
     }
+    setLoading(false);
   };
 
   const columns = [
@@ -109,19 +116,19 @@ export default function VoucherList() {
       title: "Description",
       dataIndex: "description",
       key: "description",
-      render: (text) => <div>{text}</div>,
+      render: (text) => (
+        <div style={{ maxHeight: "70px", overflow: "auto" }}>{text}</div>
+      ),
     },
     {
       title: "Time begin",
       dataIndex: "timeBegin",
       key: "timeBegin",
-      render: (text) => <div>{moment(text).format("DD-MM-YYYY")}</div>,
     },
     {
       title: "Time End",
       dataIndex: "timeEnd",
       key: "timeEnd",
-      render: (text) => <div>{moment(text).format("DD-MM-YYYY")}</div>,
     },
     {
       title: "Money sale",
@@ -140,7 +147,7 @@ export default function VoucherList() {
       key: "action",
       render: (params) => (
         <Space size="middle">
-          <Link to={"/brand/" + params._id}>
+          <Link to={"/voucher/" + params._id}>
             <button className="userListEdit">Edit</button>
           </Link>
           <DeleteOutline
@@ -170,6 +177,7 @@ export default function VoucherList() {
         dataSource={listBrands}
       />
       <NotificationDelete
+        loading={loadingDel}
         showModal={showModal}
         setShowModal={setShowModal}
         handleDelete={handleDelete}

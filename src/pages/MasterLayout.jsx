@@ -32,6 +32,7 @@ import Brand from "./brands/brand/Brand";
 
 import NewVoucher from "./vouchers/newVoucher/NewVoucher";
 import VoucherList from "./vouchers/voucher-list/VoucherList";
+import Voucher from "./vouchers/voucher/Voucher";
 
 function MasterLayout() {
   return (
@@ -120,6 +121,10 @@ function MasterLayout() {
 
             <Route path="/vouchers">
               <VoucherList />
+            </Route>
+
+            <Route path="/voucher/:voucherId">
+              <Voucher />
             </Route>
 
             <Route path="/newVoucher">
