@@ -12,7 +12,7 @@ import sizeApi from "../../api/sizeApi";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import { Input, Radio, Space } from "antd";
+import { Checkbox, Col, Input, Radio, Row, Select, Space } from "antd";
 
 //firebase
 import { storage } from "../../firebase";
@@ -22,6 +22,9 @@ import { Link, useHistory } from "react-router-dom";
 import newImage from "../../assets/images/newImage.jpg";
 
 import { ToTopOutlined } from "@ant-design/icons";
+import brandsApi from "../../api/brandApi";
+
+const { Option } = Select;
 
 export default function NewProduct() {
   const [listCate, setListCate] = useState();
@@ -29,6 +32,8 @@ export default function NewProduct() {
   const [listColor, setListColor] = useState();
 
   const [listSize, setListSize] = useState();
+  const [listBrand, setListBrand] = useState([]);
+
   const [progress, setProgress] = useState(0);
   const [progress2, setProgress2] = useState(0);
 
@@ -47,6 +52,7 @@ export default function NewProduct() {
       category: [],
       image01: "",
       image02: "",
+      brand: "",
     },
     onSubmit: (values) => {
       console.log("this value", values);
@@ -78,11 +84,13 @@ export default function NewProduct() {
         const category = await categoryApi.getAll();
         const size = await sizeApi.getAll();
         const color = await colorApi.getAll();
-        if (category && size && color) {
-          setListCate(category.categories);
-          setListSize(size.sizes);
-          setListColor(color.colors);
-        }
+        const brand = await brandsApi.getAll();
+        
+        setListBrand(brand.brands);
+        setListCate(category.categories);
+        setListSize(size.sizes);
+        setListColor(color.colors);
+    
       } catch (error) {
         console.log("error:", error);
       }
@@ -221,6 +229,33 @@ export default function NewProduct() {
     );
   };
 
+  const handleChangeSizeArr = (values) => {
+    const listSizeArr = formik.values.sizeArray;
+    const temp = values.map((item) => ({
+      size: item,
+      quantity: listSizeArr.find((temp) => temp.size === item)
+        ? listSizeArr.find((temp) => temp.size === item).quantity
+        : 0,
+    }));
+
+    formik.setFieldValue("sizeArray", temp);
+  };
+
+  const handleChangeInputNumberSize = (e, item) => {
+    let itemChange = formik.values.sizeArray.find(
+      (value) => value.size === item._id
+    );
+
+    itemChange = { ...itemChange, quantity: e.target.value };
+
+    let finalArr = formik.values.sizeArray.filter(
+      (value) => value.size !== item._id
+    );
+    finalArr.push(itemChange);
+
+    formik.setFieldValue("sizeArray", finalArr);
+  };
+
   return (
     <div className="new">
       <ToastContainer autoClose={5000} />
@@ -233,7 +268,7 @@ export default function NewProduct() {
         <div className="new__form__item">
           <div className="new__form__item__detail">
             <label className="new__form__item__detail__title">Name</label>
-            <input
+            <Input
               className="new__form__item__detail__input"
               id="title"
               name="title"
@@ -245,6 +280,31 @@ export default function NewProduct() {
             />
           </div>
 
+          <div className="new__form__item__detail">
+            <label className="new__form__item__detail__title">Price</label>
+            <Input
+              className="new__form__item__detail__input"
+              id="price"
+              name="price"
+              onChange={formik.handleChange}
+              value={formik.values.price}
+              type="number"
+              placeholder="Price product"
+              required
+            />
+          </div>
+
+          <div className="new__form__item__detail">
+            <label className="new__form__item__detail__title">Brand</label>
+            <Select
+              style={{ width: "100%" }}
+              onChange={(e) => formik.setFieldValue("brand", e)}
+            >
+              {listBrand.map((item) => (
+                <Option value={item._id}>{item.name}</Option>
+              ))}
+            </Select>
+          </div>
           <div className="new__form__item__detail">
             <label className="new__form__item__detail__title">
               Description
@@ -260,20 +320,6 @@ export default function NewProduct() {
               required
             />
           </div>
-
-          <div className="new__form__item__detail">
-            <label className="new__form__item__detail__title">Price</label>
-            <input
-              className="new__form__item__detail__input"
-              id="price"
-              name="price"
-              onChange={formik.handleChange}
-              value={formik.values.price}
-              type="number"
-              placeholder="Price product"
-              required
-            />
-          </div>
         </div>
 
         <div></div>
@@ -281,8 +327,49 @@ export default function NewProduct() {
         <div className="new__form__design">
           <div className="new__form__design__detail">
             <label className="new__form__design__detail__title">Size</label>
+            <Checkbox.Group
+              style={{
+                width: "100%",
+              }}
+              onChange={(e) => handleChangeSizeArr(e)}
+              // // options={listColor?.map((item) => item._id)}
+              value={formik.values.sizeArray.map((item) => item.size)}
+            >
+              {listSize?.map((item, index) => (
+                <Row key={index} style={{ marginBottom: "10px" }}>
+                  <Col
+                    span={12}
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <Checkbox value={item._id}>{item.sizeNumber}</Checkbox>
+                  </Col>
+                  <Col span={12}>
+                    <Input
+                      type={"number"}
+                      min={0}
+                      disabled={
+                        !formik.values.sizeArray.find(
+                          (tempId) => tempId.size === item._id
+                        )
+                      }
+                      placeholder="Quantity"
+                      onChange={(e) => handleChangeInputNumberSize(e, item)}
+                      value={
+                        formik.values.sizeArray.find(
+                          (temp) => temp.size === item._id
+                        )
+                          ? formik.values.sizeArray.find(
+                              (temp) => temp.size === item._id
+                            ).quantity
+                          : "0"
+                      }
+                    ></Input>
+                  </Col>
+                </Row>
+              ))}
+            </Checkbox.Group>
 
-            {listSize?.map((item, index) => (
+            {/* {listSize?.map((item, index) => (
               // <option key={index} value={item._id}>
               //   {item.sizeNumber}
               // </option>
@@ -324,13 +411,30 @@ export default function NewProduct() {
                   </label>
                 </div>
               </div>
-            ))}
+            ))} */}
           </div>
 
           <div className="new__form__design__detail">
             <label className="new__form__design__detail__title">Color</label>
 
-            {listColor?.map((item, index) => (
+            <Checkbox.Group
+              style={{
+                width: "100%",
+              }}
+              onChange={(e) => formik.setFieldValue("color", e)}
+              // options={listColor?.map((item) => item._id)}
+              value={formik.values.color}
+            >
+              <Row>
+                {listColor?.map((item) => (
+                  <Col span={12}>
+                    <Checkbox value={item._id}>{item.colorValue}</Checkbox>
+                  </Col>
+                ))}
+              </Row>
+            </Checkbox.Group>
+
+            {/* {listColor?.map((item, index) => (
               // <option key={index} value={item._id}>{item.colorValue}</option>
               // <div key={index}>
               //   <label>
@@ -360,7 +464,7 @@ export default function NewProduct() {
                   {item.colorValue}
                 </label>
               </div>
-            ))}
+            ))} */}
           </div>
 
           <div className="new__form__design__detail">

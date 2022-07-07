@@ -1,4 +1,6 @@
-import React from "react";
+import { Button, Select } from "antd";
+import React, { useState } from "react";
+
 import "./newUser.css";
 
 //redux
@@ -14,6 +16,9 @@ import { useFormik } from "formik";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+import { Input } from "antd";
+
+const { Option } = Select;
 
 export default function NewUser() {
   const formik = useFormik({
@@ -22,6 +27,7 @@ export default function NewUser() {
       email: "",
       phone: "",
       password: "",
+      role: "admin",
     },
     onSubmit: (values) => {
       console.log("this value", values);
@@ -30,9 +36,12 @@ export default function NewUser() {
     },
   });
 
+  const [loading, setLoading] = useState(false);
+
   const history = useHistory();
 
   const handleSubmit = async (values) => {
+    setLoading(true);
     try {
       const response = await userApi.add(values);
       if (response) {
@@ -47,6 +56,12 @@ export default function NewUser() {
     } catch (error) {
       toast.error("Add fail because " + error.message, { autoClose: false });
     }
+    setLoading(false);
+  };
+
+  const handleChangeRole = (e) => {
+    console.log(e);
+    formik.setFieldValue("role", e);
   };
 
   return (
@@ -59,8 +74,8 @@ export default function NewUser() {
         className="newUserForm"
       >
         <div className="newUserItem">
-          <label>Username</label>
-          <input
+          <label>Name</label>
+          <Input
             required
             type="text"
             name="name"
@@ -71,7 +86,7 @@ export default function NewUser() {
         </div>
         <div className="newUserItem">
           <label>Email</label>
-          <input
+          <Input
             required
             type="text"
             placeholder="Email"
@@ -82,7 +97,7 @@ export default function NewUser() {
         </div>
         <div className="newUserItem">
           <label>Phone</label>
-          <input
+          <Input
             required
             type="text"
             name="phone"
@@ -93,23 +108,55 @@ export default function NewUser() {
         </div>
         <div className="newUserItem">
           <label>Password</label>
-          <input
+          <Input
             required
             name="password"
             onChange={formik.handleChange}
             value={formik.values.password}
-            type="text"
+            type="password"
             placeholder="Password"
           />
         </div>
 
+        <div className="newUserItem">
+          <label>Role</label>
+          <Select
+            style={{ width: "100%" }}
+            onChange={handleChangeRole}
+            value={formik.values.role}
+          >
+            <Option value="admin">Admin</Option>
+            <Option value="user">User</Option>
+          </Select>
+        </div>
+
         <div className="btnBox">
-          <Link className="cancel" to="/users">
-            <button className="cancelButton">Cancel</button>
+          <Link to="/users">
+            <Button
+              style={{
+                marginRight: "10px",
+                backgroundColor: "gray",
+                color: "white",
+                height: "56px",
+                fontSize: "16px",
+              }}
+            >
+              Cancel
+            </Button>
           </Link>
-          <button className="newUserButton" type="submit">
+          <Button
+            loading={loading}
+            htmlType="submit"
+            style={{
+              marginRight: "10px",
+              backgroundColor: "rgb(11, 165, 114)",
+              color: "white",
+              height: "56px",
+              fontSize: "16px",
+            }}
+          >
             Create
-          </button>
+          </Button>
         </div>
       </form>
     </div>

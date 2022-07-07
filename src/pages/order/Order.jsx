@@ -51,9 +51,11 @@ export default function Product() {
 
   const _handleConfirm = async (id) => {
     try {
+      console.log();
+
       const response = await orderApi.update(id, status);
       if (response) {
-        toast.success("Đã xác nhận!");
+        toast.success("Success!");
 
         setTimeout(() => {
           // window.location.reload();
@@ -76,22 +78,22 @@ export default function Product() {
           <label className="order__form__detail__label" htmlFor="">
             Name
           </label>
-          <p className="order__form__detail__info">{order?.name}</p>
+          <p className="order__form__detail__info">{order?.user?.name}</p>
 
           <label className="order__form__detail__label" htmlFor="">
             Phone
           </label>
-          <p className="order__form__detail__info">{order?.phone}</p>
+          <p className="order__form__detail__info">{order?.user?.phone}</p>
 
           <label className="order__form__detail__label" htmlFor="">
             Email
           </label>
-          <p className="order__form__detail__info">{order?.email}</p>
+          <p className="order__form__detail__info">{order?.user?.email}</p>
 
           <label className="order__form__detail__label" htmlFor="">
             Address
           </label>
-          <p className="order__form__detail__info">{order?.address}</p>
+          <p className="order__form__detail__info">{order?.user?.address}</p>
 
           <label className="order__form__detail__label" htmlFor="">
             Day Order

@@ -21,6 +21,9 @@ import { Link, useParams, useHistory } from "react-router-dom";
 import newImage from "../../assets/images/newImage.jpg";
 
 import { ToTopOutlined } from "@ant-design/icons";
+import { Checkbox, Col, Input, Radio, Row, Select, Space } from "antd";
+import brandsApi from "../../api/brandApi";
+const { Option } = Select;
 
 export default function Product() {
   const [listCate, setListCate] = useState();
@@ -28,6 +31,8 @@ export default function Product() {
   const [listColor, setListColor] = useState();
 
   const [listSize, setListSize] = useState();
+
+  const [listBrand, setListBrand] = useState([]);
 
   const [url, setUrl] = useState("");
   const [url2, setUrl2] = useState("");
@@ -58,9 +63,10 @@ export default function Product() {
       price: "",
       sizeArray: [],
       color: [],
-      category: [],
+      category: "",
       image01: "",
       image02: "",
+      brand: "",
     },
     onSubmit: (values) => {
       //console.log("this value", values);
@@ -106,22 +112,15 @@ export default function Product() {
         const category = await categoryApi.getAll();
         const size = await sizeApi.getAll();
         const color = await colorApi.getAll();
+        const brand = await brandsApi.getAll();
+
+        setListBrand(brand.brands);
         if (category && size && color) {
           setListCate(category.categories);
           setListSize(size.sizes);
           setListColor(color.colors);
         }
-      } catch (error) {
-        console.log("error:", error);
-      }
-    };
 
-    fetchTotoList();
-  }, []);
-
-  useEffect(() => {
-    const fetchTotoList = async () => {
-      try {
         const response = await productApi.get(idProduct);
         if (response) {
           // console.log("rep", response?.product)
@@ -130,18 +129,25 @@ export default function Product() {
           formik.setFieldValue("title", product?.title);
           formik.setFieldValue("description", product.description);
           formik.setFieldValue("price", product.price);
-          formik.setFieldValue("sizeArray", product.sizeArray);
-          formik.setFieldValue("color", product.color);
-          formik.setFieldValue("category", product.category);
+          formik.setFieldValue(
+            "sizeArray",
+            product.sizeArray?.map((item) => ({
+              quantity: item.quantity,
+              size: item.size._id,
+            }))
+          );
+          formik.setFieldValue(
+            "color",
+            product.color?.map((item) => item._id)
+          );
+          formik.setFieldValue("category", product.category._id);
           formik.setFieldValue("image01", product.image01);
           formik.setFieldValue("image02", product.image02);
+          formik.setFieldValue("brand", product.brand);
+
           setUrl(product.image01);
           setUrl2(product.image02);
           setData(product);
-
-          console.log("color", response);
-          //setListSize(product.sizeArray)
-          //setListCate(product.category)
         }
       } catch (error) {
         console.log("error:", error);
@@ -150,6 +156,10 @@ export default function Product() {
 
     fetchTotoList();
   }, []);
+
+  useEffect(() => {}, []);
+
+  console.log(formik.values);
 
   const _handleCheckBoxChange = (e) => {
     //console.log("formik checbox", formik.values.color)
@@ -165,14 +175,18 @@ export default function Product() {
     // formik.values.color.includes(item)
   };
   const _handleCateChange = (e) => {
-    let target = e.target.id;
-    // let color={_id:target}
-    let newArray = [...listEditCate, target];
-    if (listEditCate.includes(target)) {
-      newArray = newArray.filter((cate) => cate !== target);
-    }
+    // console.log(e);
 
-    setListEditCate(newArray);
+    // let target = e.target.id;
+    // // let color={_id:target}
+    // let newArray = [...listEditCate, target];
+    // if (listEditCate.includes(target)) {
+    //   newArray = newArray.filter((cate) => cate !== target);
+    // }
+
+    // setListEditCate(newArray);
+
+    formik.setFieldValue("category", e.target.value);
   };
 
   const _handleSizeChange = (e, id, type) => {
@@ -294,18 +308,32 @@ export default function Product() {
     // formik.setFieldValue("sizeArray", product?.sizeArray);
   };
 
-  const _handleCancelColor = () => {
-    setEditColor(false);
-    setListEditColor([]);
-    // formik.setFieldValue("sizeArray", product?.sizeArray);
+  const handleChangeSizeArr = (values) => {
+    const listSizeArr = formik.values.sizeArray;
+    const temp = values.map((item) => ({
+      size: item,
+      quantity: listSizeArr.find((temp) => temp.size === item)
+        ? listSizeArr.find((temp) => temp.size === item).quantity
+        : 0,
+    }));
+
+    formik.setFieldValue("sizeArray", temp);
   };
 
-  const _handleCancelCate = () => {
-    setEditCate(false);
-    setListEditCate([]);
-    // formik.setFieldValue("sizeArray", product?.sizeArray);
-  };
+  const handleChangeInputNumberSize = (e, item) => {
+    let itemChange = formik.values.sizeArray.find(
+      (value) => value.size === item._id
+    );
 
+    itemChange = { ...itemChange, quantity: e.target.value };
+
+    let finalArr = formik.values.sizeArray.filter(
+      (value) => value.size !== item._id
+    );
+    finalArr.push(itemChange);
+
+    formik.setFieldValue("sizeArray", finalArr);
+  };
   return (
     <div className="new">
       <ToastContainer autoClose={5000} />
@@ -318,7 +346,7 @@ export default function Product() {
         <div className="new__form__item">
           <div className="new__form__item__detail">
             <label className="new__form__item__detail__title">Name</label>
-            <input
+            <Input
               className="new__form__item__detail__input"
               id="title"
               name="title"
@@ -328,6 +356,19 @@ export default function Product() {
               required
               placeholder="Name product"
             />
+          </div>
+
+          <div className="new__form__item__detail">
+            <label className="new__form__item__detail__title">Brand</label>
+            <Select
+              style={{ width: "100%" }}
+              onChange={(e) => formik.setFieldValue("brand", e)}
+              value={listBrand.length > 0 ? formik.values.brand : ""}
+            >
+              {listBrand.map((item) => (
+                <Option value={item._id}>{item.name}</Option>
+              ))}
+            </Select>
           </div>
 
           <div className="new__form__item__detail">
@@ -348,13 +389,13 @@ export default function Product() {
 
           <div className="new__form__item__detail">
             <label className="new__form__item__detail__title">Price</label>
-            <input
+            <Input
               className="new__form__item__detail__input"
               id="price"
               name="price"
               onChange={formik.handleChange}
               value={formik.values.price}
-              type="text"
+              type="number"
               placeholder="Price product"
               required
             />
@@ -367,7 +408,49 @@ export default function Product() {
           <div className="new__form__design__detail">
             <label className="new__form__design__detail__title">Size </label>
 
-            {!editSize &&
+            <Checkbox.Group
+              style={{
+                width: "100%",
+              }}
+              onChange={(e) => handleChangeSizeArr(e)}
+              // // options={listColor?.map((item) => item._id)}
+              value={formik.values.sizeArray.map((item) => item.size)}
+            >
+              {listSize?.map((item, index) => (
+                <Row key={index} style={{ marginBottom: "10px" }}>
+                  <Col
+                    span={12}
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <Checkbox value={item._id}>{item.sizeNumber}</Checkbox>
+                  </Col>
+                  <Col span={12}>
+                    <Input
+                      type={"number"}
+                      min={0}
+                      disabled={
+                        !formik.values.sizeArray.find(
+                          (tempId) => tempId.size === item._id
+                        )
+                      }
+                      placeholder="Quantity"
+                      onChange={(e) => handleChangeInputNumberSize(e, item)}
+                      value={
+                        formik.values.sizeArray.find(
+                          (temp) => temp.size === item._id
+                        )
+                          ? formik.values.sizeArray.find(
+                              (temp) => temp.size === item._id
+                            ).quantity
+                          : "0"
+                      }
+                    ></Input>
+                  </Col>
+                </Row>
+              ))}
+            </Checkbox.Group>
+
+            {/* {!editSize &&
               formik?.values?.sizeArray?.map((item, index) => (
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <label htmlFor="">- Size {item?.size?.sizeNumber}: </label>{" "}
@@ -439,13 +522,30 @@ export default function Product() {
               >
                 Cancel
               </span>
-            </div>
+            </div> */}
           </div>
 
           <div className="new__form__design__detail">
             <label className="new__form__design__detail__title">Color</label>
 
-            {!editColor &&
+            <Checkbox.Group
+              style={{
+                width: "100%",
+              }}
+              onChange={(e) => formik.setFieldValue("color", e)}
+              // options={listColor?.map((item) => item._id)}
+              value={formik.values.color}
+            >
+              <Row>
+                {listColor?.map((item) => (
+                  <Col key={item._id} span={12}>
+                    <Checkbox value={item._id}>{item.colorValue}</Checkbox>
+                  </Col>
+                ))}
+              </Row>
+            </Checkbox.Group>
+
+            {/* {!editColor &&
               formik?.values?.color?.map((item, index) => (
                 <div>
                   <label
@@ -514,13 +614,26 @@ export default function Product() {
               >
                 Cancel
               </span>
-            </div>
+            </div> */}
           </div>
 
           <div className="new__form__design__detail">
             <label className="new__form__design__detail__title">Category</label>
 
-            {!editCate &&
+            <Radio.Group
+              onChange={(e) => _handleCateChange(e)}
+              value={formik.values.category}
+            >
+              <Space direction="vertical">
+                {listCate?.map((item, index) => (
+                  <Radio key={index} value={item._id}>
+                    {item.name}
+                  </Radio>
+                ))}
+              </Space>
+            </Radio.Group>
+
+            {/* {!editCate &&
               formik?.values?.category?.map((item, index) => (
                 <div>
                   <label for={item._id}> - {item.name}</label>
@@ -544,9 +657,9 @@ export default function Product() {
                   <label for={item._id}>{item.name}</label>
                   <br />
                 </div>
-              ))}
+              ))} */}
 
-            <div style={{ marginTop: "10px" }}>
+            {/* <div style={{ marginTop: "10px" }}>
               <span
                 onClick={() => setEditCate(true)}
                 style={{
@@ -571,16 +684,14 @@ export default function Product() {
               >
                 Cancel
               </span>
-            </div>
+            </div> */}
           </div>
         </div>
 
         <div className="new__form__image">
           <div className="new__form__image__item">
             <label htmlFor="image01" className="new__form__image__title">
-              {" "}
               <div>
-                {" "}
                 <ToTopOutlined
                   className="new__form__image__title__icon"
                   style={{ fontSize: "70px" }}

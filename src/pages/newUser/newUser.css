@@ -1,51 +1,53 @@
 .newUser {
-    flex: 4;
+  flex: 4;
+  margin-bottom: 20px;
 }
 
 .newUserForm {
-    margin-left: 30px;
+  margin-left: 30px;
 }
 
 .newUserTitle {
-    font-size: 50px;
-    font-weight: 800;
-    color: rgb(7, 107, 74);
-    margin-left: 30px;
+  font-size: 50px;
+  font-weight: 800;
+  color: rgb(7, 107, 74);
+  margin-left: 30px;
 }
 
 .newUserForm {
-    width: 50%;
+  width: 50%;
 }
 
 .newUserItem {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 30px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
 }
 
-.newUserItem > label{
-    color: rgb(24, 175, 87);
-    font-weight: 600;
-    font-size: 25px;
+.newUserItem > label {
+  color: rgb(24, 175, 87);
+  font-weight: 600;
+  font-size: 25px;
 }
 
 .newUserItem > input {
-    height: 40px;
+  height: 40px;
 }
 
 .btnBox {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .newUserButton {
-    width: 48%;
-    background-color: rgb(11, 165, 114);
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
+  width: 100%;
+  background-color: rgb(11, 165, 114);
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  height: 56px;
 }
 /* 
 .cancel > .cancelButton {
@@ -57,22 +59,21 @@
     margin-right: 4%;
 } */
 
-
 .cancel {
-    width: 48%;
-    background-color: gray;
-    border: none;
-    color: white;
-    font-size: 24px;
-    margin-right: 4%;
+  width: 48%;
+  background-color: gray;
+  border: none;
+  color: white;
+  font-size: 24px;
+  margin-right: 4%;
 }
 
 .cancelButton {
-    width: 100%;
-    background-color: gray;
-    border: none;
-    color: white;
-    font-size: 24px;
-    margin-right: 4%;
-    cursor: pointer;
+  width: 100%;
+  background-color: gray;
+  border: none;
+  color: white;
+  font-size: 24px;
+  margin-right: 4%;
+  cursor: pointer;
 }

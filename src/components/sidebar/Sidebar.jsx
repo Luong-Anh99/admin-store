@@ -10,6 +10,7 @@ import {
   BusinessCenter,
   LocalMall,
   AccessibleOutlined,
+  AirlineSeatReclineNormalRounded,
 } from "@material-ui/icons";
 
 //router
@@ -130,7 +131,7 @@ export default function Sidebar() {
                 } `}
                 onClick={() => setActive("/vouchers")}
               >
-                <AccessibleOutlined className="sidebarIcon" />
+                <AirlineSeatReclineNormalRounded className="sidebarIcon" />
                 Vouchers
               </li>
             </Link>

@@ -80,6 +80,12 @@ export default function UserList() {
       key: "phone",
       render: (text) => <div>{text}</div>,
     },
+    {
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
+      render: (text) => <div>{text.name}</div>,
+    },
 
     // {
     //   title: "Password",

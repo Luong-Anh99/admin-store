@@ -49,6 +49,8 @@ export default function NewVoucher() {
 
   const [unlimit, setUnlimit] = useState(false);
 
+  const [typeSale, setTyppeSale] = useState("moneySale");
+
   const history = useHistory();
 
   useEffect(() => {
@@ -85,8 +87,6 @@ export default function NewVoucher() {
         quantity: unlimit ? -1 : values.quantity,
       };
 
-      console.log(values, tempValue);
-
       const res = await vouchersApi.add(tempValue);
       FormVoucher.resetFields();
       toast.success("Success");
@@ -103,7 +103,7 @@ export default function NewVoucher() {
   };
 
   const handleChangeTypesale = (e) => {
-    console.log(e);
+    setTyppeSale(e);
   };
 
   const handleChangeOnModel = (e) => {
@@ -225,16 +225,18 @@ export default function NewVoucher() {
                 <Option value="sumSale">Sum sale</Option>
               </Select>
             </Form.Item>
-            <Form.Item
-              label="Sum value"
-              defaultValue="0"
-              name="sumValue"
-              rules={[
-                { required: true, message: "Please input your sumValue!" },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+            {scopeSale === "sumSale" && (
+              <Form.Item
+                label="Sum value"
+                defaultValue="0"
+                name="sumValue"
+                rules={[
+                  { required: true, message: "Please input your sumValue!" },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            )}
             <Row>
               <Col style={{ paddingTop: "4px" }} span={12}>
                 Each user apply one time
@@ -316,27 +318,6 @@ export default function NewVoucher() {
             </Form.Item>
 
             <Form.Item
-              label="percent Sale"
-              defaultValue="0"
-              name="percentSale"
-              rules={[
-                { required: true, message: "Please input your percentSale!" },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="Money Sale"
-              defaultValue="0"
-              name="moneySale"
-              rules={[
-                { required: true, message: "Please input your moneySale!" },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
               label="Type Sale"
               name="typeSale"
               rules={[
@@ -349,6 +330,44 @@ export default function NewVoucher() {
                 <Option value="moneyPercentSale">Money Percent sale</Option>
               </Select>
             </Form.Item>
+
+            {typeSale === "percentSale" || typeSale === "moneyPercentSale" ? (
+              <Form.Item
+                type="number"
+                label="percent Sale"
+                defaultValue="0"
+                name="percentSale"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your percentSale!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            ) : (
+              ""
+            )}
+
+            {typeSale === "moneySale" || typeSale === "moneyPercentSale" ? (
+              <Form.Item
+                type="number"
+                label="Money Sale"
+                defaultValue="0"
+                name="moneySale"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your moneySale!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            ) : (
+              ""
+            )}
 
             <Form.Item
               label="Quantity"
@@ -379,40 +398,38 @@ export default function NewVoucher() {
               />
             </Form.Item>
 
-            {scopeSale === "model" && (
-              <>
-                <Form.Item
-                  label="On Model"
-                  name="onModel"
-                  rules={[
-                    { required: true, message: "Please input your onModel!" },
-                  ]}
+            <>
+              <Form.Item
+                label="On Model"
+                name="onModel"
+                rules={[
+                  { required: true, message: "Please input your onModel!" },
+                ]}
+              >
+                <Select onChange={handleChangeOnModel}>
+                  <Option value="Product">Product</Option>
+                  <Option value="Category">Category</Option>
+                  <Option value="Brand">Brand</Option>
+                </Select>
+              </Form.Item>
+              <Form.Item
+                label="Items"
+                name="items"
+                rules={[
+                  { required: true, message: "Please input your items!" },
+                ]}
+              >
+                <Select
+                  mode="multiple"
+                  allowClear
+                  style={{ width: "100%" }}
+                  placeholder="Please select"
+                  onChange={handleMutilSelect}
                 >
-                  <Select onChange={handleChangeOnModel}>
-                    <Option value="Product">Product</Option>
-                    <Option value="Category">Category</Option>
-                    <Option value="Brand">Brand</Option>
-                  </Select>
-                </Form.Item>
-                <Form.Item
-                  label="Items"
-                  name="items"
-                  rules={[
-                    { required: true, message: "Please input your items!" },
-                  ]}
-                >
-                  <Select
-                    mode="multiple"
-                    allowClear
-                    style={{ width: "100%" }}
-                    placeholder="Please select"
-                    onChange={handleMutilSelect}
-                  >
-                    {returnListData()}
-                  </Select>
-                </Form.Item>
-              </>
-            )}
+                  {returnListData()}
+                </Select>
+              </Form.Item>
+            </>
 
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <Form.Item>
