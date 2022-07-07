@@ -12,7 +12,7 @@ import sizeApi from "../../api/sizeApi";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import { Checkbox, Col, Input, Radio, Row, Select, Space } from "antd";
+import { Button, Checkbox, Col, Input, Radio, Row, Select, Space } from "antd";
 
 //firebase
 import { storage } from "../../firebase";
@@ -85,12 +85,11 @@ export default function NewProduct() {
         const size = await sizeApi.getAll();
         const color = await colorApi.getAll();
         const brand = await brandsApi.getAll();
-        
+
         setListBrand(brand.brands);
         setListCate(category.categories);
         setListSize(size.sizes);
         setListColor(color.colors);
-    
       } catch (error) {
         console.log("error:", error);
       }
@@ -560,7 +559,7 @@ export default function NewProduct() {
           </div>
         </div>
 
-        <div className="new__form__btnBox">
+        {/* <div className="new__form__btnBox">
           <button
             style={{}}
             onClick={() => _handleFun()}
@@ -573,6 +572,20 @@ export default function NewProduct() {
           <Link to="/products">
             <button className="new__form__btnBox__btnCancel">Cancel</button>
           </Link>
+        </div> */}
+
+        <div className="new__form__btnBox">
+          <Link to="/products">
+            <Button className="new__form__btnBox__btnCancel">Cancel</Button>
+          </Link>
+          <Button
+            style={{}}
+            onClick={() => _handleFun()}
+            htmlType="submit"
+            className="new__form__btnBox__btnCreate"
+          >
+            Create
+          </Button>
         </div>
       </form>
     </div>

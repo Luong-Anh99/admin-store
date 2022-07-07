@@ -31,59 +31,59 @@
 }
  */
 
- 
- .productList{
-    flex: 4;
-    padding-right: 20px;
-    padding-left: 20px;
+.productList {
+  flex: 4;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 
 .userListUser {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
-.productTitleContainer{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 30px;
+.productTitleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
 }
 
 .userListImg {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
 }
 
 .userListEdit {
-    border: none;
-    border-radius: 10px;
-    padding: 5px 10px;
-    background-color: rgb(135, 216, 189);
-    color: white;
-    margin-right: 20px;
-    cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  background-color: rgb(135, 216, 189);
+  color: white;
+  margin-right: 10px;
+  cursor: pointer;
 }
 
 .userListDelete {
-    color: red;
-    cursor: pointer;
+  color: red;
+  cursor: pointer;
+  font-size: 20px;
 }
 
 .productAddButton {
-    width: 100px;
-    height: 50px;
-    cursor: pointer;
-    color: white;
-    border: none;
-    background-color: rgb(47, 146, 113);
+  width: 100px;
+  height: 50px;
+  cursor: pointer;
+  color: white;
+  border: none;
+  background-color: rgb(47, 146, 113);
 }
 
 .userTitle {
-    font-weight: bold;
-    font-size: 24px;
-    color: rgb(43, 136, 105);
+  font-weight: bold;
+  font-size: 24px;
+  color: rgb(43, 136, 105);
 }

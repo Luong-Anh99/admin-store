@@ -10,8 +10,7 @@ import { Spin } from "antd";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
-  const [info, setInfo] = useState()
-
+  const [info, setInfo] = useState();
 
   useEffect(() => {
     const fetchTotoList = async () => {
@@ -37,12 +36,7 @@ export default function Home() {
           <Spin size="large" />
         </div>
       ) : (
-        <Chart
-          data={info?.orderChart}
-          title="Order Analytics"
-          grid
-          dataKey="orderNumber"
-        />
+        <Chart data={info} title="Order Analytics" grid dataKey="orderNumber" />
       )}
 
       <div className="homeWidgets">

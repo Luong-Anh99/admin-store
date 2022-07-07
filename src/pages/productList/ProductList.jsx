@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 import "./productList.css";
 
-import { DeleteOutline } from "@material-ui/icons";
+import { DeleteOutline, HideSource } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 import productApi from "../../api/productApi";
@@ -21,6 +21,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import NotificationDelete from "../../components/notfication-delete/NotificationDelete";
+import { CloseCircleOutlined, ExclamationOutlined } from "@ant-design/icons";
 
 export default function ProductList() {
   const dispatch = useDispatch();
@@ -70,7 +71,7 @@ export default function ProductList() {
 
   const columns = [
     {
-      width: 300,
+      width: 180,
       title: "Name",
       dataIndex: "title",
       key: "title",
@@ -89,6 +90,18 @@ export default function ProductList() {
       dataIndex: "description",
       key: "description",
       render: (text) => <div>{text.substring(0, 20)}...</div>,
+    },
+    {
+      title: "Brand",
+      dataIndex: "brand",
+      key: "brand",
+      render: (text) => <div>{text?.name} </div>,
+    },
+    {
+      title: "Category",
+      dataIndex: "category",
+      key: "category",
+      render: (text) => <div>{text?.name} </div>,
     },
     {
       title: "Price",
@@ -110,7 +123,7 @@ export default function ProductList() {
           <Link to={"/product/" + params._id}>
             <button className="userListEdit">Edit</button>
           </Link>
-          <DeleteOutline
+          <CloseCircleOutlined
             className="userListDelete"
             onClick={() => _openModalDelete(params._id)}
           />

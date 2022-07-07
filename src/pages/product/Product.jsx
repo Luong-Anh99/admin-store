@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import "./product.scss";
 import { useFormik } from "formik";
+import { useEffect, useState } from "react";
+import "./product.scss";
 
 import productApi from "../../api/productApi.js";
 
@@ -9,19 +9,18 @@ import colorApi from "../../api/colorApi";
 import sizeApi from "../../api/sizeApi";
 
 //notification
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
 
 //firebase
 import { storage } from "../../firebase";
 
-import { Link, useParams, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 
 import newImage from "../../assets/images/newImage.jpg";
 
 import { ToTopOutlined } from "@ant-design/icons";
-import { Checkbox, Col, Input, Radio, Row, Select, Space } from "antd";
+import { Button, Checkbox, Col, Input, Radio, Row, Select, Space } from "antd";
 import brandsApi from "../../api/brandApi";
 const { Option } = Select;
 
@@ -38,8 +37,6 @@ export default function Product() {
   const [url2, setUrl2] = useState("");
 
   const [editSize, setEditSize] = useState(false);
-  const [editColor, setEditColor] = useState(false);
-  const [editCate, setEditCate] = useState(false);
 
   const [listEditSize, setListEditSize] = useState([]);
   const [listEditColor, setListEditColor] = useState([]);
@@ -49,6 +46,8 @@ export default function Product() {
   const [progress2, setProgress2] = useState(0);
 
   const [data, setData] = useState();
+
+  const [loading, setLoading] = useState(false);
 
   const history = useHistory();
 
@@ -83,13 +82,15 @@ export default function Product() {
         values.category = listEditCate;
       }
 
-      setTimeout(() => handleSubmit(values), 1000);
+      setTimeout(() => handleSubmit(values), 500);
 
       //handleSubmit(values);
     },
   });
 
   const handleSubmit = async (values) => {
+    setLoading(true);
+
     try {
       const response = await productApi.update(idProduct, values);
       if (response) {
@@ -104,6 +105,7 @@ export default function Product() {
     } catch (error) {
       toast.error("Add fail because " + error.message, { autoClose: false });
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -746,16 +748,17 @@ export default function Product() {
 
         <div className="new__form__btnBox">
           <Link to="/products">
-            <button className="new__form__btnBox__btnCancel">Cancel</button>
+            <Button className="new__form__btnBox__btnCancel">Cancel</Button>
           </Link>
-          <button
+          <Button
             style={{}}
             onClick={() => _handleFun()}
-            type="submit"
+            htmlType="submit"
             className="new__form__btnBox__btnCreate"
+            loading={loading}
           >
             Update
-          </button>
+          </Button>
         </div>
       </form>
     </div>

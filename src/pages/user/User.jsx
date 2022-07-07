@@ -52,7 +52,14 @@ export default function User() {
         }, 2000);
       }
     } catch (error) {
-      toast.error("Add fail because " + error.message);
+      console.log(error?.response?.data?.data?.errors[0].msg);
+
+      toast.error(
+        error?.response?.data?.data?.errors[0].msg &&
+          error?.response?.data?.data?.errors
+          ? error?.response?.data?.data?.errors[0].msg
+          : error.message
+      );
     }
     setLoading(false);
   };
@@ -161,7 +168,7 @@ export default function User() {
               fontSize: "16px",
             }}
           >
-            Create
+            Update
           </Button>
         </div>
       </form>
