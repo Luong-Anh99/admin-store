@@ -254,16 +254,18 @@ export default function Voucher() {
                 <Option value="sumSale">Sum sale</Option>
               </Select>
             </Form.Item>
-            <Form.Item
-              label="Sum value"
-              defaultValue="0"
-              name="sumValue"
-              rules={[
-                { required: true, message: "Please input your sumValue!" },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+            {scopeSale === "sumSale" && (
+              <Form.Item
+                label="Sum value"
+                defaultValue="0"
+                name="sumValue"
+                rules={[
+                  { required: true, message: "Please input your sumValue!" },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            )}
             <Row>
               <Col style={{ paddingTop: "4px" }} span={14}>
                 Each user apply one time
