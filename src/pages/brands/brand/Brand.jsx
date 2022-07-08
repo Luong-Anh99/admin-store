@@ -89,7 +89,7 @@ export default function Brand() {
         </div>
 
         <div className="btnBox">
-          <Link className="cancel" to="/colors">
+          <Link className="cancel" to="/brands">
             <button className="cancelButton">Cancel</button>
           </Link>
           <button className="newUserButton" type="submit">

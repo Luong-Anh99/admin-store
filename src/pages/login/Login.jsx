@@ -13,6 +13,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 
 import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { setAuth } from "../../redux/auth/authSlice";
 
 const Login = (props) => {
   const formik = useFormik({
@@ -27,6 +29,8 @@ const Login = (props) => {
     },
   });
 
+  const dispatch = useDispatch();
+
   const handleSubmit = async (values) => {
     try {
       const response = await userApi.login(values);
@@ -36,14 +40,15 @@ const Login = (props) => {
 
         console.log("status1: ", response);
 
-        Cookies.set("auth", response.user.token);
+        Cookies.set("auth", response?.user?.token);
+        dispatch(setAuth(response?.user?.token));
 
         props.history.push("/");
       } else {
         console.log("status2: ", response);
       }
     } catch (error) {
-      toast.error("invalid username or password, try again?");
+      toast.error(error?.response?.data?.message);
     }
   };
 

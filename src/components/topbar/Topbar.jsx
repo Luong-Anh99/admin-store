@@ -14,10 +14,14 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 
 import jwtDecode from "jwt-decode";
+import { useDispatch } from "react-redux";
+import { removeAuth } from "../../redux/auth/authSlice";
 
 export default function Topbar(props) {
   const auth = Cookies.get("auth");
   console.log("this auth", jwtDecode(auth));
+
+  const dispatch = useDispatch();
 
   const handleLogout = async () => {
     // try {
@@ -34,9 +38,10 @@ export default function Topbar(props) {
       const response = await userApi.logout();
       if (response) {
         console.log("123");
+        Cookies.remove("auth");
+        dispatch(removeAuth());
         toast.success("Logout success");
         window.location.reload();
-        Cookies.remove("auth");
       }
     } catch (error) {
       toast.error(error, { autoClose: false });
