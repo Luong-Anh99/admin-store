@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 const NotificationDelete = (props) => {
   const [showModal, setShowModal] = useState(false);
 
-  const { handleDelete, loading } = props;
+  const { handleDelete, loading, titleDis = "Confirm Delete" } = props;
 
   const _onOk = async () => {
     try {
@@ -26,7 +26,7 @@ const NotificationDelete = (props) => {
   return (
     <div>
       <Modal
-        title="Confirm delete"
+        title={titleDis}
         visible={props.showModal}
         footer={null}
         // onOk={_onOk}
@@ -34,7 +34,7 @@ const NotificationDelete = (props) => {
         // okText="Confirm"
         // cancelText="Cancel"
       >
-        <p>Are you sure to delete?</p>
+        <p>Are you sure ?</p>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <Button onClick={_closeModal} type="primary">
             Cancel
@@ -48,7 +48,7 @@ const NotificationDelete = (props) => {
               color: "white",
             }}
           >
-            Delete
+            {titleDis}
           </Button>
         </div>
       </Modal>

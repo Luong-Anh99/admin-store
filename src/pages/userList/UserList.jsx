@@ -11,30 +11,33 @@ import userApi from "../../api/userApi";
 
 import { setUser, deleteUser } from "../../redux/user/userAction";
 
-import { Table, Space } from "antd";
+import { Table, Space, Modal, Button } from "antd";
 import NotificationDelete from "../../components/notfication-delete/NotificationDelete";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+import { LockOutlined, UnlockOutlined } from "@ant-design/icons";
 
 export default function UserList() {
   const dispatch = useDispatch();
 
-  const listUser = useSelector((state) => state.users.users);
-
   const [loading, setLoading] = useState(true);
 
-  const [idDelete, setIdDelete] = useState("");
+  const [idDelete, setIdDelete] = useState(null);
 
   const [showModal, setShowModal] = useState(false);
+
+  const [loadingDel, setLoadingDel] = useState(false);
+
+  const [listProductState, setlistProductState] = useState([]);
 
   useEffect(() => {
     const fetchTotoList = async () => {
       try {
         const response = await userApi.getAll();
         if (response) {
-          dispatch(setUser(response.users));
+          setlistProductState(response.users);
           setLoading(false);
         }
       } catch (error) {
@@ -50,16 +53,27 @@ export default function UserList() {
   };
 
   const handleDelete = async (id) => {
-    console.log("id", id);
+    const tempValues = !id.isDisabled;
+
     try {
-      const res = await userApi.delete(id);
+      setLoadingDel(true);
+      const res = await userApi.delete(id._id);
+
       if (res) {
-        dispatch(deleteUser(id));
-        toast.warn("Delete Success");
+        // dispatch(deleteProduct(id));
+
+        setlistProductState((state) =>
+          state.map((item) =>
+            item._id !== id._id ? item : { ...id, isDisabled: tempValues }
+          )
+        );
+        toast.warn("Disable Success");
+        setShowModal(false);
       }
     } catch (error) {
       console.log(error);
     }
+    setLoadingDel(false);
   };
 
   const columns = [
@@ -86,7 +100,12 @@ export default function UserList() {
       key: "role",
       render: (text) => <div>{text.name}</div>,
     },
-
+    {
+      title: "Status",
+      dataIndex: "isDisabled",
+      key: "isDisabled",
+      render: (text) => <div>{text ? "Disable" : "Active"} </div>,
+    },
     // {
     //   title: "Password",
     //   dataIndex: "password",
@@ -106,13 +125,20 @@ export default function UserList() {
       key: "action",
       render: (params) => (
         <Space size="middle">
-          <Link to={"/user/" + params._id}>
+          <Link to={"/product/" + params._id}>
             <button className="userListEdit">Edit</button>
           </Link>
-          <DeleteOutline
-            className="userListDelete"
-            onClick={() => _openModalDelete(params._id)}
-          />
+          {!params?.isDisabled ? (
+            <LockOutlined
+              className="userListDelete"
+              onClick={() => _openModalDelete(params)}
+            />
+          ) : (
+            <UnlockOutlined
+              className="userListDelete"
+              onClick={() => _openModalDelete(params)}
+            />
+          )}
         </Space>
       ),
     },
@@ -133,15 +159,39 @@ export default function UserList() {
         loading={loading}
         columns={columns}
         pagination={{ pageSize: 5 }}
-        dataSource={listUser}
+        dataSource={listProductState}
       />
 
-      <NotificationDelete
-        showModal={showModal}
-        setShowModal={setShowModal}
-        handleDelete={handleDelete}
-        idDelete={idDelete}
-      />
+      <Modal
+        title={idDelete?.isDisabled ? "Active" : "Disable"}
+        visible={showModal}
+        footer={null}
+        // onOk={_onOk}
+        onCancel={() => setShowModal((state) => !state)}
+        // okText="Confirm"
+        // cancelText="Cancel"
+      >
+        <p>Are you sure ?</p>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button
+            onClick={() => setShowModal((state) => !state)}
+            type="primary"
+          >
+            Cancel
+          </Button>
+          <Button
+            loading={loadingDel}
+            onClick={() => handleDelete(idDelete)}
+            style={{
+              marginLeft: "10px",
+              backgroundColor: "red",
+              color: "white",
+            }}
+          >
+            {idDelete?.isDisabled ? "Active" : "Disable"}
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }

@@ -1,36 +1,33 @@
-import React, { useEffect, useState } from "react";
-
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 import "./productList.css";
 
-import { DeleteOutline, HideSource } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 import productApi from "../../api/productApi";
 
-import { useDispatch } from "react-redux";
-import { setProduct, deleteProduct } from "../../redux/product/productAction";
-import { Table, Space } from "antd";
+import { Space, Table, Modal, Button } from "antd";
 import "antd/dist/antd.css";
 import moment from "moment";
+import { useDispatch } from "react-redux";
 import numberWithCommas from "../../utils/numberWithCommas";
 
 //notification
-import { ToastContainer } from "react-toastify";
+import { LockOutlined, UnlockOutlined } from "@ant-design/icons";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
-import NotificationDelete from "../../components/notfication-delete/NotificationDelete";
-import { CloseCircleOutlined, ExclamationOutlined } from "@ant-design/icons";
 
 export default function ProductList() {
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(true);
+  const [loadingDel, setLoadingDel] = useState(false);
 
-  const [idDelete, setIdDelete] = useState("");
+  const [idDelete, setIdDelete] = useState(null);
 
   const [showModal, setShowModal] = useState(false);
+
+  const [listProductState, setlistProductState] = useState([]);
 
   const _openModalDelete = (id) => {
     setIdDelete(id);
@@ -42,7 +39,7 @@ export default function ProductList() {
       try {
         const response = await productApi.getAll();
         if (response) {
-          dispatch(setProduct(response.products));
+          setlistProductState(response?.products);
           setLoading(false);
         }
       } catch (error) {
@@ -53,31 +50,44 @@ export default function ProductList() {
     fetchTotoList();
   }, []);
 
-  const listProduct = useSelector((state) => state.products.products);
+  // const listProductState = useSelector((state) => state.products.products);
 
   const handleDelete = async (id) => {
-    console.log("id", id);
+    const tempValues = !id.isDisabled;
+
     try {
-      const res = await productApi.delete(id);
+      setLoadingDel(true);
+      const res = await productApi.delete(id._id);
 
       if (res) {
-        dispatch(deleteProduct(id));
-        toast.warn("Delete Success");
+        // dispatch(deleteProduct(id));
+
+        setlistProductState((state) =>
+          state.map((item) =>
+            item._id !== id._id ? item : { ...id, isDisabled: tempValues }
+          )
+        );
+        toast.warn("Disable Success");
+        setShowModal(false);
       }
     } catch (error) {
       console.log(error);
     }
+    setLoadingDel(false);
   };
+
+  console.log(listProductState);
 
   const columns = [
     {
-      width: 180,
+      width: 150,
       title: "Name",
       dataIndex: "title",
       key: "title",
-      render: (text) => <div>{text.substring(0, 40)}...</div>,
+      render: (text) => <div>{text?.substring(0, 40)}...</div>,
     },
     {
+      width: 120,
       title: "Create Date",
       dataIndex: "createdAt",
       key: "createdAt",
@@ -85,12 +95,7 @@ export default function ProductList() {
         <div>{moment(text).format("DD-MM-YYYY").toString()}</div>
       ),
     },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-      render: (text) => <div>{text.substring(0, 20)}...</div>,
-    },
+
     {
       title: "Brand",
       dataIndex: "brand",
@@ -110,6 +115,12 @@ export default function ProductList() {
       render: (text) => <div>{numberWithCommas(text)} $</div>,
     },
     {
+      title: "Status",
+      dataIndex: "isDisabled",
+      key: "isDisabled",
+      render: (text) => <div>{text ? "Disable" : "Active"} </div>,
+    },
+    {
       title: "Image",
       dataIndex: "image01",
       key: "image01",
@@ -123,16 +134,21 @@ export default function ProductList() {
           <Link to={"/product/" + params._id}>
             <button className="userListEdit">Edit</button>
           </Link>
-          <CloseCircleOutlined
-            className="userListDelete"
-            onClick={() => _openModalDelete(params._id)}
-          />
+          {!params?.isDisabled ? (
+            <LockOutlined
+              className="userListDelete"
+              onClick={() => _openModalDelete(params)}
+            />
+          ) : (
+            <UnlockOutlined
+              className="userListDelete"
+              onClick={() => _openModalDelete(params)}
+            />
+          )}
         </Space>
       ),
     },
   ];
-
-  console.log("tlisst product", listProduct);
 
   return (
     <div className="productList">
@@ -144,7 +160,7 @@ export default function ProductList() {
         </Link>
       </div>
       {/* <DataGrid
-        rows={listProduct}
+        rows={listProductState}
         disableSelectionOnClick
         columns={columns}
         pageSize={10}
@@ -155,15 +171,48 @@ export default function ProductList() {
         loading={loading}
         columns={columns}
         pagination={{ pageSize: 5 }}
-        dataSource={listProduct.filter((x) => x.isRemoved === false)}
+        dataSource={listProductState}
       />
 
-      <NotificationDelete
+      {/* <NotificationDelete
+        titleDis={"Disable"}
         showModal={showModal}
         setShowModal={setShowModal}
         handleDelete={handleDelete}
         idDelete={idDelete}
-      />
+        loading={loadingDel}
+      /> */}
+
+      <Modal
+        title={idDelete?.isDisabled ? "Active" : "Disable"}
+        visible={showModal}
+        footer={null}
+        // onOk={_onOk}
+        onCancel={() => setShowModal((state) => !state)}
+        // okText="Confirm"
+        // cancelText="Cancel"
+      >
+        <p>Are you sure ?</p>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button
+            onClick={() => setShowModal((state) => !state)}
+            type="primary"
+          >
+            Cancel
+          </Button>
+          <Button
+            loading={loadingDel}
+            onClick={() => handleDelete(idDelete)}
+            style={{
+              marginLeft: "10px",
+              backgroundColor: "red",
+              color: "white",
+            }}
+          >
+            {idDelete?.isDisabled ? "Active" : "Disable"}
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }
