@@ -42,12 +42,6 @@ export default function WidgetLg(props) {
     },
 
     {
-      title: "Phone",
-      dataIndex: "phone",
-      key: "phone",
-    },
-
-    {
       title: "Money",
       dataIndex: "totalMoney",
       key: "totalMoney",

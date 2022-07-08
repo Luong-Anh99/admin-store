@@ -125,7 +125,7 @@ export default function UserList() {
       key: "action",
       render: (params) => (
         <Space size="middle">
-          <Link to={"/product/" + params._id}>
+          <Link to={"/user/" + params._id}>
             <button className="userListEdit">Edit</button>
           </Link>
           {!params?.isDisabled ? (
