@@ -95,6 +95,7 @@ export default function NewVoucher() {
       console.log(tempValue);
     } catch (e) {
       console.log(e);
+      toast.error(e?.response?.data?.message);
     }
     setLoading(false);
   };
@@ -225,18 +226,16 @@ export default function NewVoucher() {
                 <Option value="sumSale">Sum sale</Option>
               </Select>
             </Form.Item>
-            {scopeSale === "sumSale" && (
-              <Form.Item
-                label="Sum value"
-                defaultValue="0"
-                name="sumValue"
-                rules={[
-                  { required: true, message: "Please input your sumValue!" },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            )}
+            <Form.Item
+              label="Sum value"
+              defaultValue="0"
+              name="sumValue"
+              rules={[
+                { required: true, message: "Please input your sumValue!" },
+              ]}
+            >
+              <Input />
+            </Form.Item>
             <Row>
               <Col style={{ paddingTop: "4px" }} span={12}>
                 Each user apply one time
@@ -398,38 +397,40 @@ export default function NewVoucher() {
               />
             </Form.Item>
 
-            <>
-              <Form.Item
-                label="On Model"
-                name="onModel"
-                rules={[
-                  { required: true, message: "Please input your onModel!" },
-                ]}
-              >
-                <Select onChange={handleChangeOnModel}>
-                  <Option value="Product">Product</Option>
-                  <Option value="Category">Category</Option>
-                  <Option value="Brand">Brand</Option>
-                </Select>
-              </Form.Item>
-              <Form.Item
-                label="Items"
-                name="items"
-                rules={[
-                  { required: true, message: "Please input your items!" },
-                ]}
-              >
-                <Select
-                  mode="multiple"
-                  allowClear
-                  style={{ width: "100%" }}
-                  placeholder="Please select"
-                  onChange={handleMutilSelect}
+            {scopeSale === "model" && (
+              <>
+                <Form.Item
+                  label="On Model"
+                  name="onModel"
+                  rules={[
+                    { required: true, message: "Please input your onModel!" },
+                  ]}
                 >
-                  {returnListData()}
-                </Select>
-              </Form.Item>
-            </>
+                  <Select onChange={handleChangeOnModel}>
+                    <Option value="Product">Product</Option>
+                    <Option value="Category">Category</Option>
+                    <Option value="Brand">Brand</Option>
+                  </Select>
+                </Form.Item>
+                <Form.Item
+                  label="Items"
+                  name="items"
+                  rules={[
+                    { required: true, message: "Please input your items!" },
+                  ]}
+                >
+                  <Select
+                    mode="multiple"
+                    allowClear
+                    style={{ width: "100%" }}
+                    placeholder="Please select"
+                    onChange={handleMutilSelect}
+                  >
+                    {returnListData()}
+                  </Select>
+                </Form.Item>
+              </>
+            )}
 
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <Form.Item>
