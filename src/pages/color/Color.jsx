@@ -37,7 +37,7 @@ export default function Color() {
       console.log("color value", values);
       const response = await colorApi.update(idColor,values);
       if (response) {
-        toast.success("Add new size success!");
+        toast.success("Success!");
 
         setTimeout(() => {
           // localStorage.clear();

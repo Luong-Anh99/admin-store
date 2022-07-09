@@ -117,7 +117,6 @@ export default function SizeList() {
 
   return (
     <div className="userList">
-        <ToastContainer autoClose={5000} />
       <div className="userTitleContainer">
         <h1 className="userTitle">List Size Current</h1>
         <Link to="/newSize">

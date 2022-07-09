@@ -317,17 +317,8 @@ export default function Voucher() {
                 </Form.Item>
               </Col>
             </Row>
-            <Form.Item
-              label="Description"
-              name="description"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your Description!",
-                },
-              ]}
-            >
-              <Input.TextArea />
+            <Form.Item label="Description" name="description">
+              <Input.TextArea rows={4} disabled />
             </Form.Item>
           </Col>
 

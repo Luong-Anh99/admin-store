@@ -69,7 +69,6 @@ export default function Size() {
   // console.log("formik", formik.values)
   return (
     <div className="newUser">
-      <ToastContainer autoClose={5000} />
       <h1 className="newUserTitle">Edit Size</h1>
       <form
         onSubmit={formik.handleSubmit}

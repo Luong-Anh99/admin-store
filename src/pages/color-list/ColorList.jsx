@@ -70,8 +70,10 @@ export default function ColorList() {
         console.log(error.response.data);
         console.log(error.response.status);
 
-        if(error.response.status == 409) {
-          toast.error("Can't not delete because there are products of this type  ")
+        if (error.response.status == 409) {
+          toast.error(
+            "Can't not delete because there are products of this type  "
+          );
         }
         console.log(error.response.headers);
       } else if (error.request) {
@@ -127,7 +129,6 @@ export default function ColorList() {
 
   return (
     <div className="userList">
-      <ToastContainer autoClose={5000} />
       <div className="userTitleContainer">
         <h1 className="userTitle">List Color Current</h1>
         <Link to="/newColor">

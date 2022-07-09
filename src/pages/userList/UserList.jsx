@@ -146,7 +146,6 @@ export default function UserList() {
 
   return (
     <div className="userList">
-      <ToastContainer autoClose={5000} />
       <div className="userTitleContainer">
         <h1 className="userTitle">List Account</h1>
         <Link to="/newUser">

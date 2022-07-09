@@ -12,7 +12,7 @@ const brandsApi = {
   },
 
   delete: (id) => {
-    const url = `/admin/size/${id}`;
+    const url = `/admin/brand/${id}`;
     return axiosClient.delete(url);
   },
 

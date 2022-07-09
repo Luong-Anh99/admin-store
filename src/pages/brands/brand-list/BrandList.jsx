@@ -58,7 +58,7 @@ export default function BrandList() {
   const handleDelete = async (id) => {
     console.log("id", id);
     try {
-      const res = await colorApi.delete(id);
+      const res = await brandsApi.delete(id);
 
       if (res) {
         dispatch(deleteColor(id));
@@ -139,7 +139,6 @@ export default function BrandList() {
 
   return (
     <div className="userList">
-      <ToastContainer autoClose={3000} />
       <div className="userTitleContainer">
         <h1 className="userTitle">List Brands Current</h1>
         <Link to="/newBrand">

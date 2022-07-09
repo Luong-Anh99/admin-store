@@ -94,7 +94,7 @@ export default function Product() {
     try {
       const response = await productApi.update(idProduct, values);
       if (response) {
-        toast.success("Cập nhật sản phầm thành công!");
+        toast.success("Success!");
 
         setTimeout(() => {
           // localStorage.clear();

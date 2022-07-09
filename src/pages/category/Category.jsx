@@ -33,7 +33,7 @@ export default function Category() {
     try {
       const response = await categoryApi.update(idCate, values);
       if (response) {
-        toast.success("Update User success!");
+        toast.success("Success!");
 
         setTimeout(() => {
           // localStorage.clear();

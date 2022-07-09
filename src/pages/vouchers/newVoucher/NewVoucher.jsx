@@ -157,7 +157,6 @@ export default function NewVoucher() {
 
   return (
     <div className="newUser">
-      <ToastContainer autoClose={5000} />
       <div
         style={{
           marginBottom: "20px",

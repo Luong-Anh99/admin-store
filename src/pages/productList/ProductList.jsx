@@ -152,7 +152,6 @@ export default function ProductList() {
 
   return (
     <div className="productList">
-      <ToastContainer autoClose={5000} />
       <div className="productTitleContainer">
         <h1 className="userTitle">List Product</h1>
         <Link to="/newProduct">
