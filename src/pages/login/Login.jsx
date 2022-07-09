@@ -35,7 +35,7 @@ const Login = (props) => {
     try {
       const response = await userApi.login(values);
       console.log("status: ", response?.status);
-      if (response) {
+      if (response?.user?.role?.name === "admin") {
         toast.success("Login success!");
 
         console.log("status1: ", response);
@@ -45,7 +45,7 @@ const Login = (props) => {
 
         props.history.push("/");
       } else {
-        console.log("status2: ", response);
+        toast.warn("Your account is forbidden to login!");
       }
     } catch (error) {
       toast.error(error?.response?.data?.message);

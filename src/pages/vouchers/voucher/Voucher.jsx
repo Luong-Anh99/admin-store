@@ -455,13 +455,7 @@ export default function Voucher() {
                     <Option value="Brand">Brand</Option>
                   </Select>
                 </Form.Item>
-                <Form.Item
-                  label="Items"
-                  name="items"
-                  rules={[
-                    { required: true, message: "Please input your items!" },
-                  ]}
-                >
+                <Form.Item label="Items" name="items">
                   <Select
                     mode="multiple"
                     allowClear

@@ -183,6 +183,7 @@ export default function NewVoucher() {
           onModel: "Category",
           scopeSale: "model",
           quantity: "1",
+          items:[]
         }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
@@ -417,9 +418,7 @@ export default function NewVoucher() {
                 <Form.Item
                   label="Items"
                   name="items"
-                  rules={[
-                    { required: true, message: "Please input your items!" },
-                  ]}
+                
                 >
                   <Select
                     mode="multiple"

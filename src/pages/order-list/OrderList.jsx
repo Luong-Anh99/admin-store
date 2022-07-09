@@ -118,26 +118,26 @@ export default function OrderList() {
           onClick={() => setShowStatus(1)}
           className={`status-item ${showStatus === 1 ? "active" : ""}`}
         >
-          Chờ xác nhận
+          Pending
         </div>
         <div
           onClick={() => setShowStatus(2)}
           className={`status-item ${showStatus === 2 ? "active" : ""}`}
         >
-          Đang vận chuyển
+          Shipping
         </div>
         <div
           onClick={() => setShowStatus(3)}
           className={`status-item ${showStatus === 3 ? "active" : ""}`}
         >
-          Đơn đã hoàn tất
+          Succeeded
         </div>
 
         <div
           onClick={() => setShowStatus(4)}
           className={`status-item ${showStatus === 4 ? "active" : ""}`}
         >
-          Đơn đã hủy
+          Cancel
         </div>
       </div>
 

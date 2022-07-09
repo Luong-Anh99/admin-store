@@ -38,10 +38,10 @@ export default function Topbar(props) {
       const response = await userApi.logout();
       if (response) {
         console.log("123");
+        toast.success("Logout success");
         Cookies.remove("auth");
         dispatch(removeAuth());
-        toast.success("Logout success");
-        window.location.reload();
+        // window.location.reload();
       }
     } catch (error) {
       toast.error(error, { autoClose: false });
@@ -65,7 +65,7 @@ export default function Topbar(props) {
     <Menu>
       <Menu.Item key="0">
         <button onClick={handleLogout} /* onClick={() => auth.logout()}*/>
-          Đăng xuất
+          Logout{" "}
         </button>
       </Menu.Item>
     </Menu>

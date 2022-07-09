@@ -53,7 +53,7 @@ export default function Sidebar() {
                 onClick={() => setActive("/users")}
               >
                 <PersonOutline className="sidebarIcon" />
-                Admin
+                Account
               </li>
             </Link>
             <Link to="/products" className="link">

@@ -89,7 +89,7 @@ export default function User() {
   };
   return (
     <div className="newUser">
-      <h1 className="newUserTitle">Edit Admin</h1>
+      <h1 className="newUserTitle">Edit Account</h1>
       <form
         onSubmit={formik.handleSubmit}
         action="submit"

@@ -67,7 +67,7 @@ export default function NewUser() {
   return (
     <div className="newUser">
       <ToastContainer autoClose={5000} />
-      <h1 className="newUserTitle">Create New Admin</h1>
+      <h1 className="newUserTitle">Create New Account</h1>
       <form
         onSubmit={formik.handleSubmit}
         action="submit"
