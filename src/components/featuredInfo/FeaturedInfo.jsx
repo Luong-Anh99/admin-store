@@ -60,7 +60,7 @@ export default function FeaturedInfo(props) {
       </div>
       <div className="featuredItem itemUser">
         <span className="featuredTitle">
-           Total admin up to present{" "}
+           Total user up to present{" "}
         </span>
         <div className="featuredMoneyContainer">
           {loading === true ? (

@@ -317,9 +317,28 @@ export default function Voucher() {
                 </Form.Item>
               </Col>
             </Row>
-            <Form.Item label="Description" name="description">
-              <Input.TextArea rows={4} disabled />
-            </Form.Item>
+            <p
+              style={{
+                padding: "9px",
+                border: "1px solid gray",
+                borderRadius: "3px",
+                maxHeight: "178px",
+                overflow: "hidden",
+                overflowY: "scroll",
+              }}
+              dangerouslySetInnerHTML={{
+                __html: `${FormVoucher.getFieldValue("description")}`,
+              }}
+            />
+            {/* <Form.Item label="Description">
+              <Input.TextArea
+                rows={4}
+                disabled
+                dangerouslySetInnerHTML={{
+                  __html: `${FormVoucher.getFieldValue("description")}`,
+                }}
+              />
+            </Form.Item> */}
           </Col>
 
           <Col
