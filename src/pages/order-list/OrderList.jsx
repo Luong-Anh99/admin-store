@@ -17,6 +17,7 @@ import { Table, Tag, Space } from "antd";
 import orderApi from "../../api/orderApi";
 import { setOrder } from "../../redux/order/orderAction";
 import numberWithCommas from "../../utils/numberWithCommas";
+import moment from "moment";
 
 export default function OrderList() {
   const dispatch = useDispatch();
@@ -146,7 +147,13 @@ export default function OrderList() {
           loading={loading}
           columns={columns}
           pagination={{ pageSize: 5 }}
-          dataSource={listOrders.filter((e) => e.status === "pending")}
+          dataSource={listOrders
+            .filter((e) => e.status === "pending")
+            .sort(
+              (a, b) =>
+                new Date(moment(b.orderDate, "DD/MM/yyyy")) -
+                new Date(moment(a.orderDate, "DD/MM/yyyy"))
+            )}
         />
       )}
 
@@ -155,7 +162,13 @@ export default function OrderList() {
           loading={loading}
           columns={columns}
           pagination={{ pageSize: 5 }}
-          dataSource={listOrders.filter((e) => e.status === "shipping")}
+          dataSource={listOrders
+            .filter((e) => e.status === "shipping")
+            .sort(
+              (a, b) =>
+                new Date(moment(b.orderDate, "DD/MM/yyyy")) -
+                new Date(moment(a.orderDate, "DD/MM/yyyy"))
+            )}
         />
       )}
 
@@ -164,7 +177,13 @@ export default function OrderList() {
           loading={loading}
           columns={columns}
           pagination={{ pageSize: 5 }}
-          dataSource={listOrders.filter((e) => e.status === "succeeded")}
+          dataSource={listOrders
+            .filter((e) => e.status === "succeeded")
+            .sort(
+              (a, b) =>
+                new Date(moment(b.orderDate, "DD/MM/yyyy")) -
+                new Date(moment(a.orderDate, "DD/MM/yyyy"))
+            )}
         />
       )}
 
@@ -173,7 +192,13 @@ export default function OrderList() {
           loading={loading}
           columns={columns}
           pagination={{ pageSize: 5 }}
-          dataSource={listOrders.filter((e) => e.status === "failed")}
+          dataSource={listOrders
+            .filter((e) => e.status === "failed")
+            .sort(
+              (a, b) =>
+                new Date(moment(b.orderDate, "DD/MM/yyyy")) -
+                new Date(moment(a.orderDate, "DD/MM/yyyy"))
+            )}
         />
       )}
     </div>

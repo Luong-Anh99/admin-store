@@ -11,6 +11,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import numberWithCommas from "../../utils/numberWithCommas";
+import moment from "moment";
+import { Button } from "antd";
 
 export default function Product() {
   const [order, setOrder] = useState();
@@ -18,6 +20,8 @@ export default function Product() {
   const [status, setStatus] = useState();
 
   const [click, setClick] = useState();
+
+  const [loading, setLoading] = useState(false);
 
   const history = useHistory();
 
@@ -50,26 +54,28 @@ export default function Product() {
   };
 
   const _handleConfirm = async (id) => {
+    setLoading(true);
     try {
       console.log();
 
       const response = await orderApi.update(id, status);
       if (response) {
         toast.success("Success!");
+        setLoading(false);
 
         setTimeout(() => {
           // window.location.reload();
           history.push("/orders");
-        }, 3000);
+        }, 500);
       }
     } catch (error) {
       toast.error("Can't not update status like that!!! ", error);
     }
+    setLoading(false);
   };
 
   return (
     <div className="order">
-      <ToastContainer autoClose={5000} />
       <p className="order__header">Thông tin đơn hàng</p>
 
       <div className="order__form">
@@ -79,26 +85,53 @@ export default function Product() {
             Name
           </label>
           <p className="order__form__detail__info">{order?.user?.name}</p>
-
           <label className="order__form__detail__label" htmlFor="">
             Phone
           </label>
           <p className="order__form__detail__info">{order?.user?.phone}</p>
-
           <label className="order__form__detail__label" htmlFor="">
             Email
           </label>
           <p className="order__form__detail__info">{order?.user?.email}</p>
-
           <label className="order__form__detail__label" htmlFor="">
             Address
           </label>
-          <p className="order__form__detail__info">{order?.user?.address}</p>
+          <p className="order__form__detail__info">
+            {order?.user?.address?.specificAddress +
+              " " +
+              order?.user?.address?.subDistrict +
+              " " +
+              order?.user?.address?.district +
+              " " +
+              order?.user?.address?.province}
+          </p>
 
           <label className="order__form__detail__label" htmlFor="">
             Day Order
           </label>
-          <p className="order__form__detail__info">{order?.createdAt}</p>
+          <p className="order__form__detail__info">
+            {moment(order?.createdAt).format("DD/MM/yyyy")}
+          </p>
+
+          {order?.user?.promotionCode && (
+            <>
+              <label className="order__form__detail__label" htmlFor="">
+                Voucher code
+              </label>
+              <p className="order__form__detail__info">
+                {order?.user?.promotionCode}
+              </p>
+            </>
+          )}
+
+          <label className="order__form__detail__label" htmlFor="">
+            Sale money
+          </label>
+          <p className="order__form__detail__info">
+            {numberWithCommas(
+              order?.user?.saleMoney ? order?.user?.saleMoney : "0"
+            )}
+          </p>
 
           <label className="order__form__detail__label" htmlFor="">
             Delivery Money
@@ -106,14 +139,12 @@ export default function Product() {
           <p className="order__form__detail__info">
             {numberWithCommas(order?.deliveryMoney)} $
           </p>
-
           <label className="order__form__detail__label" htmlFor="">
             Order Money
           </label>
           <p className="order__form__detail__info">
             {numberWithCommas(order?.orderMoney)} $
           </p>
-
           <label htmlFor="" className="order__form__detail__label">
             Total Money
           </label>
@@ -188,12 +219,14 @@ export default function Product() {
         <Link to="/orders">
           <button className="button-container__cancel">Cancel</button>
         </Link>
-        <button
+        <Button
+          loading={loading}
           onClick={() => _handleConfirm(order?._id)}
           className="button-container__confirm"
+          style={{ backgroundColor: "orange" }}
         >
           Confirm
-        </button>
+        </Button>
       </div>
     </div>
   );
