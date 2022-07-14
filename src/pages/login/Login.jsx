@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../../assets/logo.png";
 import imageLogin from "../../assets/imageLogin.jpg";
 import "./login.scss";
@@ -15,8 +15,11 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../redux/auth/authSlice";
+import { Button } from "antd";
 
 const Login = (props) => {
+  const [loading, setLoading] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -32,6 +35,7 @@ const Login = (props) => {
   const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
+    setLoading(true);
     try {
       const response = await userApi.login(values);
       console.log("status: ", response?.status);
@@ -42,6 +46,7 @@ const Login = (props) => {
 
         Cookies.set("auth", response?.user?.token);
         dispatch(setAuth(response?.user?.token));
+        setLoading(false);
 
         props.history.push("/");
       } else {
@@ -50,11 +55,13 @@ const Login = (props) => {
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
+    setLoading(false);
   };
 
   return (
     <div className="login">
-      <ToastContainer autoClose={5000} />
+      <ToastContainer autoClose={4000} />
+
       <form onSubmit={formik.handleSubmit} className="login__left">
         <img className="login__left__logo" src={logo} alt="" />
         <p className="login__left__title">Hello</p>
@@ -75,18 +82,26 @@ const Login = (props) => {
           className="login__left__password"
           type="password"
         />
-        <button
+        <Button
           //   onClick={() => {
           //     auth.login(() => {
           //       props.history.push("/");
           //     });
           //   }}
-          type="submit"
+          loading={loading}
+          htmlType="submit"
           //onClick={() => props.history.push("/")}
           className="login__left__btn-login"
+          style={{
+            height: "76px",
+            backgroundColor: "gray",
+            fontWeight: 600,
+            fontSize: "24px",
+            color: "white",
+          }}
         >
           Login
-        </button>
+        </Button>
       </form>
       <div className="login__right">
         <img src={imageLogin} alt="" className="login__right__image" />
