@@ -98,11 +98,11 @@ export default function Product() {
           </label>
           <p className="order__form__detail__info">
             {order?.user?.address?.specificAddress +
-              " " +
+              ", " +
               order?.user?.address?.subDistrict +
-              " " +
+              ", " +
               order?.user?.address?.district +
-              " " +
+              ", " +
               order?.user?.address?.province}
           </p>
 

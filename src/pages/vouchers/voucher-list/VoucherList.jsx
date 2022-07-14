@@ -112,14 +112,14 @@ export default function VoucherList() {
       key: "name",
       render: (text) => <div>{text}</div>,
     },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-      render: (text) => (
-        <div style={{ maxHeight: "70px", overflow: "auto" }}>{text}</div>
-      ),
-    },
+    // {
+    //   title: "Description",
+    //   dataIndex: "description",
+    //   key: "description",
+    //   render: (text) => (
+    //     <div style={{ maxHeight: "70px", overflow: "auto" }}>{text}</div>
+    //   ),
+    // },
     {
       title: "Time begin",
       dataIndex: "timeBegin",

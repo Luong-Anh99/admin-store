@@ -182,7 +182,7 @@ export default function NewVoucher() {
           onModel: "Category",
           scopeSale: "model",
           quantity: "1",
-          items:[]
+          items: [],
         }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
@@ -334,7 +334,6 @@ export default function NewVoucher() {
 
             {typeSale === "percentSale" || typeSale === "moneyPercentSale" ? (
               <Form.Item
-                type="number"
                 label="percent Sale"
                 defaultValue="0"
                 name="percentSale"
@@ -345,7 +344,7 @@ export default function NewVoucher() {
                   },
                 ]}
               >
-                <Input />
+                <Input type="number" />
               </Form.Item>
             ) : (
               ""
@@ -353,7 +352,6 @@ export default function NewVoucher() {
 
             {typeSale === "moneySale" || typeSale === "moneyPercentSale" ? (
               <Form.Item
-                type="number"
                 label="Money Sale"
                 defaultValue="0"
                 name="moneySale"
@@ -364,7 +362,7 @@ export default function NewVoucher() {
                   },
                 ]}
               >
-                <Input />
+                <Input type="number" />
               </Form.Item>
             ) : (
               ""
@@ -389,7 +387,7 @@ export default function NewVoucher() {
                       value={unlimit}
                       onChange={(e) => {
                         FormVoucher.setFieldsValue({
-                          quantity: unlimit ? "1" : 0,
+                          quantity: unlimit ? "1" : "-1",
                         });
                         setUnlimit(!unlimit);
                       }}
@@ -414,11 +412,7 @@ export default function NewVoucher() {
                     <Option value="Brand">Brand</Option>
                   </Select>
                 </Form.Item>
-                <Form.Item
-                  label="Items"
-                  name="items"
-                
-                >
+                <Form.Item label="Items" name="items">
                   <Select
                     mode="multiple"
                     allowClear

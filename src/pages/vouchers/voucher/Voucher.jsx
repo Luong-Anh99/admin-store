@@ -385,7 +385,6 @@ export default function Voucher() {
 
             {typeSale === "percentSale" || typeSale === "moneyPercentSale" ? (
               <Form.Item
-                type="number"
                 label="percent Sale"
                 defaultValue="0"
                 name="percentSale"
@@ -396,7 +395,7 @@ export default function Voucher() {
                   },
                 ]}
               >
-                <Input />
+                <Input type="number" />
               </Form.Item>
             ) : (
               ""
@@ -404,7 +403,6 @@ export default function Voucher() {
 
             {typeSale === "moneySale" || typeSale === "moneyPercentSale" ? (
               <Form.Item
-                type="number"
                 label="Money Sale"
                 defaultValue="0"
                 name="moneySale"
@@ -415,7 +413,7 @@ export default function Voucher() {
                   },
                 ]}
               >
-                <Input />
+                <Input type="number" />
               </Form.Item>
             ) : (
               ""
@@ -440,7 +438,7 @@ export default function Voucher() {
                       checked={unlimit}
                       onChange={(e) => {
                         FormVoucher.setFieldsValue({
-                          quantity: unlimit ? "1" : 0,
+                          quantity: unlimit ? "1" : "-1",
                         });
                         setUnlimit(!unlimit);
                       }}
