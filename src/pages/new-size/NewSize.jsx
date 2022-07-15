@@ -66,7 +66,7 @@ export default function NewSize() {
         </div>
 
         <div className="btnBox">
-          <Link className="cancel" to="/users">
+          <Link className="cancel" to="/sizes">
             <button className="cancelButton">Cancel</button>
           </Link>
           <button className="newUserButton" type="submit">

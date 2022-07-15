@@ -25,13 +25,15 @@ import brandsApi from "../../api/brandApi";
 const { Option } = Select;
 
 export default function Product() {
-  const [listCate, setListCate] = useState();
+  const [listCate, setListCate] = useState([]);
 
-  const [listColor, setListColor] = useState();
+  const [listColor, setListColor] = useState([]);
 
-  const [listSize, setListSize] = useState();
+  const [listSize, setListSize] = useState([]);
 
   const [listBrand, setListBrand] = useState([]);
+
+  // console.log({ listCate, listColor, listSize, listBrand });
 
   const [url, setUrl] = useState("");
   const [url2, setUrl2] = useState("");
@@ -116,8 +118,8 @@ export default function Product() {
         const color = await colorApi.getAll();
         const brand = await brandsApi.getAll();
 
-        setListBrand(brand.brands);
-        if (category && size && color) {
+        if (category && size && color && brand) {
+          setListBrand(brand.brands);
           setListCate(category.categories);
           setListSize(size.sizes);
           setListColor(color.colors);
@@ -145,7 +147,7 @@ export default function Product() {
           formik.setFieldValue("category", product.category._id);
           formik.setFieldValue("image01", product.image01);
           formik.setFieldValue("image02", product.image02);
-          formik.setFieldValue("brand", product.brand);
+          formik.setFieldValue("brand", product.brand?._id);
 
           setUrl(product.image01);
           setUrl2(product.image02);
