@@ -361,7 +361,7 @@ export default function Voucher() {
               <RangePicker
                 style={{ width: "100%" }}
                 onChange={(e) => console.log(e)}
-                disabledDate={disabledDate}
+                // disabledDate={disabledDate}
                 rules={[
                   { required: true, message: "Please input your range time!" },
                 ]}
