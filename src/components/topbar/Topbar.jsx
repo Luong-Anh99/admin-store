@@ -80,17 +80,6 @@ export default function Topbar(props) {
           </Link>
         </div>
         <div className="topRight">
-          <div className="topbarIconsContainer">
-            <NotificationsNone />
-            <span className="topIconBadge">2</span>
-          </div>
-          <div className="topbarIconsContainer">
-            <Language />
-            <span className="topIconBadge">2</span>
-          </div>
-          <div className="topbarIconsContainer">
-            <Settings />
-          </div>
           <Dropdown icon overlay={menu} trigger={["click"]}>
             <Avatar size={45} icon={<UserOutlined />} />
           </Dropdown>

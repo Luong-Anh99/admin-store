@@ -1,3 +1,4 @@
+import { Select } from "antd";
 import React from "react";
 import {
   Bar,
@@ -12,6 +13,8 @@ import {
   Legend,
 } from "recharts";
 import "./chart.css";
+
+const { Option } = Select;
 
 const data2 = [
   {
@@ -62,7 +65,22 @@ export default function Chart({ title, data, dataKey, grid }) {
   return (
     <>
       <div className="chart">
-        <h3 className="chartTitle">{title}</h3>
+        <div style={{ display: "flex" }}>
+          <h3 className="chartTitle" style={{ marginRight: "15px" }}>
+            {title}
+          </h3>
+          <Select
+            defaultValue="2022"
+            style={{ width: 120 }}
+            onChange={(e) => console.log(e)}
+          >
+            <Option value="2022">2022</Option>
+            <Option value="2021">2021</Option>
+            <Option value="2020">2020</Option>
+            <Option value="2019">2019</Option>
+            <Option value="2018">2018</Option>
+          </Select>
+        </div>
         <ResponsiveContainer width="100%" aspect={4 / 1} height="100%">
           <BarChart margin={{ left: 20 }} data={data?.orderChart}>
             <Bar dataKey={dataKey} fill="#8884d8" />
@@ -74,7 +92,23 @@ export default function Chart({ title, data, dataKey, grid }) {
       </div>
 
       <div className="chart">
-        <h3 className="chartTitle">Revenue Analytics</h3>
+        <div style={{ display: "flex" }}>
+          <h3 className="chartTitle" style={{ marginRight: "15px" }}>
+            Revenue Analytics
+          </h3>
+          <Select
+            defaultValue="2022"
+            style={{ width: 120 }}
+            onChange={(e) => console.log(e)}
+          >
+            <Option value="2022">2022</Option>
+            <Option value="2021">2021</Option>
+            <Option value="2020">2020</Option>
+            <Option value="2019">2019</Option>
+            <Option value="2018">2018</Option>
+          </Select>
+        </div>
+
         <ResponsiveContainer width="100%" aspect={4 / 1} height="100%">
           <LineChart
             width={500}
