@@ -310,7 +310,7 @@ export default function NewVoucher() {
             >
               <RangePicker
                 style={{ width: "100%" }}
-                disabledDate={disabledDate}
+                // disabledDate={disabledDate}
                 rules={[
                   { required: true, message: "Please input your range time!" },
                 ]}
