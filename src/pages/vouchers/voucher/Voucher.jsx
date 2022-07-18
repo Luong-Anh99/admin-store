@@ -289,7 +289,7 @@ export default function Voucher() {
                       });
                       setCheckData((state) => ({
                         ...state,
-                        eachUserApplyOneTime: e.target.value,
+                        eachUserApplyOneTime: e.target.checked,
                       }));
                     }}
                     checked={checkData?.eachUserApplyOneTime}
@@ -310,7 +310,7 @@ export default function Voucher() {
                       });
                       setCheckData((state) => ({
                         ...state,
-                        applyOneProductOfOrder: e.target.value,
+                        applyOneProductOfOrder: e.target.checked,
                       }));
                     }}
                     checked={checkData?.applyOneProductOfOrder}
@@ -326,12 +326,13 @@ export default function Voucher() {
                 <Form.Item name="eachProductApplyOneTime">
                   <Checkbox
                     onChange={(e) => {
+                      console.log(e.target.checked);
                       FormVoucher.setFieldsValue({
                         eachProductApplyOneTime: e.target.checked,
                       });
                       setCheckData((state) => ({
                         ...state,
-                        eachProductApplyOneTime: e.target.value,
+                        eachProductApplyOneTime: e.target.checked,
                       }));
                     }}
                     checked={checkData?.eachProductApplyOneTime}
