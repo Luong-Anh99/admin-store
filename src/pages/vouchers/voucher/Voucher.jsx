@@ -50,6 +50,12 @@ export default function Voucher() {
 
   const [typeSale, setTyppeSale] = useState("moneySale");
 
+  const [checkData, setCheckData] = useState({
+    eachProductApplyOneTime: false,
+    applyOneProductOfOrder: false,
+    eachUserApplyOneTime: false,
+  });
+
   const history = useHistory();
 
   console.log(unlimit);
@@ -97,6 +103,12 @@ export default function Voucher() {
           ],
         });
 
+        setCheckData({
+          eachProductApplyOneTime: resDetail?.eachProductApplyOneTime,
+          applyOneProductOfOrder: resDetail?.ApplyOneProductOfOrder,
+          eachUserApplyOneTime: resDetail?.eachUserApplyOneTime,
+        });
+
         setTyppeSale(resDetail?.typeSale);
 
         setScopeSale(resDetail?.scopeSale);
@@ -109,8 +121,6 @@ export default function Voucher() {
     };
     getListData();
   }, []);
-
-  console.log(listData);
 
   const onFinish = async (values) => {
     setLoading(true);
@@ -190,7 +200,7 @@ export default function Voucher() {
     history.push("/vouchers");
   };
 
-  console.log(unlimit);
+  console.log(FormVoucher.getFieldValue("eachUserApplyOneTime"));
 
   return (
     <div className="newUser">
@@ -273,12 +283,16 @@ export default function Voucher() {
               <Col span={10}>
                 <Form.Item name="eachUserApplyOneTime">
                   <Checkbox
-                    onChange={(e) =>
+                    onChange={(e) => {
                       FormVoucher.setFieldsValue({
                         eachUserApplyOneTime: e.target.checked,
-                      })
-                    }
-                    defaultChecked
+                      });
+                      setCheckData((state) => ({
+                        ...state,
+                        eachUserApplyOneTime: e.target.value,
+                      }));
+                    }}
+                    checked={checkData?.eachUserApplyOneTime}
                   />
                 </Form.Item>
               </Col>
@@ -290,12 +304,16 @@ export default function Voucher() {
               <Col span={10}>
                 <Form.Item name="ApplyOneProductOfOrder">
                   <Checkbox
-                    onChange={(e) =>
+                    onChange={(e) => {
                       FormVoucher.setFieldsValue({
                         ApplyOneProductOfOrder: e.target.checked,
-                      })
-                    }
-                    defaultChecked
+                      });
+                      setCheckData((state) => ({
+                        ...state,
+                        applyOneProductOfOrder: e.target.value,
+                      }));
+                    }}
+                    checked={checkData?.applyOneProductOfOrder}
                   />
                 </Form.Item>
               </Col>
@@ -307,12 +325,16 @@ export default function Voucher() {
               <Col span={10}>
                 <Form.Item name="eachProductApplyOneTime">
                   <Checkbox
-                    onChange={(e) =>
+                    onChange={(e) => {
                       FormVoucher.setFieldsValue({
                         eachProductApplyOneTime: e.target.checked,
-                      })
-                    }
-                    defaultChecked
+                      });
+                      setCheckData((state) => ({
+                        ...state,
+                        eachProductApplyOneTime: e.target.value,
+                      }));
+                    }}
+                    checked={checkData?.eachProductApplyOneTime}
                   />
                 </Form.Item>
               </Col>
